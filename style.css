@@ -1,0 +1,236 @@
+@font-face {
+    font-family: "Space Mono";
+    font-weight: normal;
+    src: url("./fonts/SpaceMono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Space Mono";
+    font-weight: bold;
+    src: url("./fonts/SpaceMono-Bold.ttf") format("truetype");
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-strong-cyan: hsl(172, 67%, 45%);
+    
+    --very-dark-cyan: hsl(183, 100%, 15%);
+    --dark-grayish-cyan: hsl(186, 14%, 43%);
+    --dark-grayish-cyan1: hsl(184, 14%, 56%);
+    --light-grayish-cyan: hsl(185, 41%, 84%);
+    --light-grayish-cyan1: hsl(189, 41%, 97%);
+    --white: hsl(0, 0%, 100%);
+
+    --space-mono: "Space Mono";
+
+    font-size: 24px;
+
+
+    --input-height: 50px;
+    --input-bd-rad: 8px;
+    --result-bd-rad: 16px;
+    --app-ct-bd-rad: 20px;
+    --app-bg-height: 150px;
+    --line-height-normal: 1.6;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--space-mono);
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
+    background: var(--white);
+}
+
+a {
+    text-decoration: none;
+}
+
+input {
+    border: 0;
+    outline: none;
+}
+
+input:focus {
+    border: 0;
+    outline: none;
+}
+
+.app-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--app-bg-height) + var(--app-ct-bd-rad));
+
+    background: var(--light-grayish-cyan);
+}
+
+.app-background header {
+    position: relative;
+    width: 100%;
+    height: calc(var(--app-bg-height));
+}
+
+.app-background img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.app-container {
+    position: absolute;
+    top: var(--app-bg-height);
+    left: 0;
+    width: 100%;
+
+    background: var(--white);
+
+    border-top-left-radius: var(--app-ct-bd-rad);
+    border-top-right-radius: var(--app-ct-bd-rad);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.app-container > .pad {
+    padding: 30px;
+}
+
+.app-container > .pad > * + * {
+    margin-top: 30px;
+}
+
+.bill-box {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--dark-grayish-cyan);
+}
+
+.bill-box input {
+    display: block;
+
+    width: 100%;
+    height: var(--input-height);
+    border-radius: var(--input-bd-rad);
+
+    background: var(--light-grayish-cyan1);
+    color: var(--very-dark-cyan);
+
+    padding-left: 50px;
+    padding-right: 20px;
+
+    text-align: right;
+    font-size: 1rem;
+    font-family: var(--space-mono);
+    font-weight: bold;
+}
+
+.bill-box input:focus {
+    box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
+}
+
+.bill-box > div {
+    position: relative;
+}
+
+.bill-box img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 20px;
+    height: 1em;
+}
+
+.tip-box {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--dark-grayish-cyan);
+}
+
+.tip-box > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.tip-box > div > * {
+    margin-top: 15px;
+    display: block;
+    width: 47.5%;
+}
+
+.tip-box a {
+    height: var(--input-height);
+    line-height: var(--input-height);
+
+    background: var(--very-dark-cyan);
+    border-radius: var(--input-bd-rad);
+    text-align: center;
+    font-size: 1rem;
+    color: var(--white);
+}
+
+.tip-box a > span {
+    line-height: var(--line-height-normal);
+}
+
+.tip-box input {
+    height: var(--input-height);
+    background: var(--light-grayish-cyan1);
+    border-radius: var(--input-bd-rad);
+    text-align: right;
+    font-size: 1rem;
+    font-family: var(--space-mono);
+    font-weight: bold;
+    color: var(--dark-grayish-cyan);
+    padding: 0 1rem; /* TODO */
+}
+
+.tip-box input::placeholder {
+    color: var(--dark-grayish-cyan);
+}
+
+.result-box {
+    background: var(--very-dark-cyan);
+    border-radius: var(--result-bd-rad);
+    padding: 30px;
+    font-weight: bold;
+}
+
+.result-box > a {
+    display: block;
+    height: var(--input-height);
+    line-height: var(--input-height);
+    text-align: center;
+    font-weight: bold;
+    color: var(--very-dark-cyan);
+    background: var(--primary-strong-cyan);
+    border-radius: var(--input-bd-rad);
+}
+
+.result-box > * + * {
+    margin-top: 30px;
+}
+
+.result-box h3 {
+    color: var(--white);
+    font-size: 0.75rem;
+}
+
+.result-box p {
+    color: var(--dark-grayish-cyan1);
+    font-size: 0.6rem;
+}

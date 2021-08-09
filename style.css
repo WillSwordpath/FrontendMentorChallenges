@@ -31,7 +31,7 @@
     font-size: 24px;
 
 
-    --input-height: 50px;
+    --input-height: 56px;
     --input-bd-rad: 8px;
     --result-bd-rad: 16px;
     --app-ct-bd-rad: 20px;
@@ -122,6 +122,8 @@ input:focus {
 .bill-box input {
     display: block;
 
+    margin-top: 15px;
+
     width: 100%;
     height: var(--input-height);
     border-radius: var(--input-bd-rad);
@@ -169,22 +171,18 @@ input:focus {
 .tip-box > div > * {
     margin-top: 15px;
     display: block;
-    width: 47.5%;
+    width: calc(50% - 7.5px);
 }
 
 .tip-box a {
     height: var(--input-height);
     line-height: var(--input-height);
+    text-align: center;
 
     background: var(--very-dark-cyan);
     border-radius: var(--input-bd-rad);
-    text-align: center;
     font-size: 1rem;
     color: var(--white);
-}
-
-.tip-box a > span {
-    line-height: var(--line-height-normal);
 }
 
 .tip-box input {
@@ -196,7 +194,11 @@ input:focus {
     font-family: var(--space-mono);
     font-weight: bold;
     color: var(--dark-grayish-cyan);
-    padding: 0 1rem; /* TODO */
+    padding: 0 20px;
+}
+
+.tip-box input:focus {
+    box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
 }
 
 .tip-box input::placeholder {

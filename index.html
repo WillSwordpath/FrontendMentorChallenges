@@ -17,50 +17,61 @@
 <body>
 
   <div class="app-background">
-    <header><img src="./images/logo.svg" alt="Tip Calculator"></header>
+    <div class="logo-container-c">
+      <img src="./images/logo.svg" alt="Tip Calculator">
+    </div>
   </div>
 
   <div class="app-container">
 
-    <div class="pad">
-      <section class="bill-box">
+    <div class="gapped-flow-ac">
+
+      <div class="titled-area">
         Bill
-        <div>
+        <div class="iconed-input-c">
           <img src="./images/icon-dollar.svg" alt="">
-          <input type="text">
+          <input class="uniform" type="text">
         </div>
-      </section>
-      <section class="tip-box">
+      </div>
+
+      <div class="titled-area">
         Select Tip %
-        <div>
+        <div class="mixed-a-input-ac">
           <a>5%</a>
           <a>10%</a>
           <a>15%</a>
           <a>25%</a>
           <a>50%</a>
-          <input type="text" placeholder="Custom">
+          <input class="uniform" type="text" placeholder="Custom">
         </div>
-      </section>
-      <section class="bill-box">
+      </div>
+
+      <div class="titled-area">
         Number of People
-        <div>
+        <div class="iconed-input-c">
           <img src="./images/icon-person.svg" alt="">
-          <input type="text">
+          <input class="uniform" type="text">
         </div>
-      </section>
+      </div>
+
     </div>
 
-    <section class="result-box">
+    <div class="result-box gapped-flow-ac">
+
       <div>
         <h3>Tip Amount</h3>
         <p>/ person</p>
       </div>
+
       <div>
         <h3>Total</h3>
         <p>/ person</p>
       </div>
+
       <a>RESET</a>
-    </section>
+
+    </div>
+
   </div>
 
   <!-- <div class="attribution">

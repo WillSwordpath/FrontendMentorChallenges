@@ -16,60 +16,66 @@
 </head>
 <body>
 
-  <div class="app-background">
-    <div class="logo-container-c">
-      <img src="./images/logo.svg" alt="Tip Calculator">
-    </div>
-  </div>
-
   <div class="app-container">
 
-    <div class="gapped-flow-ac">
-
-      <div class="titled-area">
-        Bill
-        <div class="iconed-input-c">
-          <img src="./images/icon-dollar.svg" alt="">
-          <input class="uniform" type="text">
-        </div>
+    <div class="app-background">
+      <div class="logo-container-c">
+        <img src="./images/logo.svg" alt="Tip Calculator">
       </div>
-
-      <div class="titled-area">
-        Select Tip %
-        <div class="mixed-a-input-ac">
-          <a>5%</a>
-          <a>10%</a>
-          <a>15%</a>
-          <a>25%</a>
-          <a>50%</a>
-          <input class="uniform" type="text" placeholder="Custom">
-        </div>
-      </div>
-
-      <div class="titled-area">
-        Number of People
-        <div class="iconed-input-c">
-          <img src="./images/icon-person.svg" alt="">
-          <input class="uniform" type="text">
-        </div>
-      </div>
-
     </div>
 
-    <div class="result-box gapped-flow-ac">
 
-      <div>
-        <h3>Tip Amount</h3>
-        <p>/ person</p>
+    <div class="func-container">
+      <div class="input-box gapped-flow-ac">
+        <div class="titled-area">
+          Bill
+          <div class="iconed-input-c">
+            <img src="./images/icon-dollar.svg" alt="">
+            <input class="uniform" type="text" placeholder="0">
+          </div>
+        </div>
+        <div class="titled-area">
+          Select Tip %
+          <div class="mixed-a-input-ac">
+            <a>5%</a>
+            <a>10%</a>
+            <a>15%</a>
+            <a>25%</a>
+            <a>50%</a>
+            <input class="uniform" type="text" placeholder="Custom">
+          </div>
+        </div>
+        <div class="titled-area">
+          Number of People
+          <div class="iconed-input-c">
+            <img src="./images/icon-person.svg" alt="">
+            <input class="uniform" type="text" placeholder="0">
+          </div>
+        </div>
       </div>
-
-      <div>
-        <h3>Total</h3>
-        <p>/ person</p>
+      <div class="result-box gapped-flow-ac">
+        <div class="result-display-container-ac">
+          <div class="result-display-c">
+            <div class="-title">
+              <h3>Tip Amount</h3>
+              <p>/ person</p>
+            </div>
+            <div class="-dollar">
+              $0.00
+            </div>
+          </div>
+          <div class="result-display-c">
+            <div class="-title">
+              <h3>Total</h3>
+              <p>/ person</p>
+            </div>
+            <div class="-dollar">
+              $0.00
+            </div>
+          </div>
+        </div>
+        <a class="reset-btn empty">RESET</a>
       </div>
-
-      <a>RESET</a>
-
     </div>
 
   </div>

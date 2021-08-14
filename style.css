@@ -34,22 +34,23 @@
     --input-font-size: 24px;
     --titled-area-font-size: 18px;
 
-    font-size: 24px;
+    font-size: 16px;
 
 
     --input-height: 56px;
     --input-bd-rad: 8px;
     --result-bd-rad: 16px;
     --app-ct-bd-rad: 20px;
-    --app-bg-height: 150px;
+    --app-header-height: 150px;
     --line-height-normal: 1.6;
     --app-normal-gap: 30px;
     --app-small-gap: 15px;
     --transition-fast: .2s;
 }
 
-html {
-    min-height: 100%;
+html, body {
+    min-width: 100vw;
+    min-height: 100vh;
 }
 
 body {
@@ -78,7 +79,7 @@ input:focus {
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(var(--app-bg-height) + var(--app-ct-bd-rad));
+    height: calc(var(--app-header-height) + var(--app-ct-bd-rad));
 
     background: var(--light-grayish-cyan);
 }
@@ -86,7 +87,7 @@ input:focus {
 .logo-container-c {
     position: relative;
     width: 100%;
-    height: calc(var(--app-bg-height));
+    height: calc(var(--app-header-height));
 }
 
 .logo-container-c > img {
@@ -99,9 +100,9 @@ input:focus {
     margin: auto;
 }
 
-.app-container {
+.func-container {
     position: absolute;
-    top: var(--app-bg-height);
+    top: var(--app-header-height);
     left: 0;
     width: 100%;
 
@@ -149,6 +150,10 @@ input.uniform:focus {
     box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
 }
 
+input.uniform::placeholder {
+    color: var(--darker-grayish-cyan);
+}
+
 
 .titled-area {
     font-size: var(--titled-area-font-size);
@@ -191,10 +196,6 @@ input.uniform:focus {
     width: calc(50% - var(--app-small-gap) * .5);
 }
 
-.mixed-a-input-ac > input::placeholder {
-    color: var(--darker-grayish-cyan);
-}
-
 .mixed-a-input-ac > a {
     height: var(--input-height);
     line-height: var(--input-height);
@@ -222,21 +223,48 @@ input.uniform:focus {
 }
 
 
-
-/* TODO */
-
 .result-box {
     background: var(--very-dark-cyan);
     border-radius: var(--result-bd-rad);
+}
+
+.result-display-container-ac > * + * {
+    margin-top: var(--app-normal-gap);
+}
+
+.result-display-c {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-display-c > .-title > h3 {
+    color: var(--white);
+    font-size: var(--titled-area-font-size);
     font-weight: bold;
 }
 
-.result-box > a {
+.result-display-c > .-title > p {
+    color: var(--dark-grayish-cyan);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.result-display-c > .-dollar {
+    color: var(--primary-strong-cyan);
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.reset-btn {
     display: block;
-    height: var(--input-height);
+    
     line-height: var(--input-height);
     text-align: center;
     font-weight: bold;
+    font-size: var(--input-font-size);
+    
+    height: var(--input-height);
     color: var(--very-dark-cyan);
     background: var(--primary-strong-cyan);
     border-radius: var(--input-bd-rad);
@@ -244,16 +272,63 @@ input.uniform:focus {
     transition: background var(--transition-fast);
 }
 
-.result-box > a:hover {
+.reset-btn:hover {
     background: var(--button-hover-light);
 }
 
-.result-box h3 {
-    color: var(--white);
-    font-size: 18px;
+.reset-btn.empty {
+    background: rgba(13,104,109,255);
 }
 
-.result-box p {
-    color: var(--dark-grayish-cyan);
-    font-size: 14px;
+@media (min-width: 700px) {
+    body {
+        background: var(--light-grayish-cyan);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .app-background {
+        position: static;
+        background: none;
+
+        height: var(--app-header-height);
+    }
+
+    .func-container {
+        position: static;
+        max-width: 900px;        
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        border-bottom-left-radius: var(--app-ct-bd-rad);
+        border-bottom-right-radius: var(--app-ct-bd-rad);
+
+        margin-bottom: var(--app-header-height);
+    }
+
+    .mixed-a-input-ac > * {
+        width: calc((100% - var(--app-small-gap) * 2) / 3);
+    }
+
+    .gapped-flow-ac {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .input-box {
+        padding-right: 0;
+        max-width: 50%;
+        flex-grow: 1;
+    }
+
+    .result-box {
+        margin: var(--app-normal-gap);
+        max-width: 50%;
+        flex-grow: 1;
+    }
 }

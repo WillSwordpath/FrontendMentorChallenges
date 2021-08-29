@@ -28,6 +28,7 @@
     --button-hover-light: rgba(159,232,223,255);
 
     --white: hsl(0, 0%, 100%);
+    --error-orange: rgb(255, 95, 0);
 
 
     --space-mono: "Space Mono", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -64,13 +65,18 @@ a {
     text-decoration: none;
 }
 
-input {
-    border: 0;
+input,
+button {
+    border: none;
     outline: none;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1em;
 }
 
-input:focus {
-    border: 0;
+input:focus,
+button:focus {
+    border: none;
     outline: none;
 }
 
@@ -154,11 +160,24 @@ input.uniform::placeholder {
     color: var(--darker-grayish-cyan);
 }
 
+input.uniform.error {
+    box-shadow: 0 0 2px 2px var(--error-orange);
+}
 
 .titled-area {
     font-size: var(--titled-area-font-size);
     font-weight: bold;
     color: var(--darker-grayish-cyan);
+}
+
+.title-with-error {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.error-message {
+    color: var(--error-orange);
 }
 
 .iconed-input-c {
@@ -196,7 +215,9 @@ input.uniform::placeholder {
     width: calc(50% - var(--app-small-gap) * .5);
 }
 
-.mixed-a-input-ac > a {
+.mixed-a-input-ac > button {
+    cursor: pointer;
+
     height: var(--input-height);
     line-height: var(--input-height);
     text-align: center;
@@ -212,20 +233,30 @@ input.uniform::placeholder {
         background var(--transition-fast);
 }
 
-.mixed-a-input-ac > a:hover {
+.mixed-a-input-ac > button:hover,
+.mixed-a-input-ac > button:focus {
     background: var(--button-hover-light);
     color: var(--very-dark-cyan);
 }
 
-.mixed-a-input-ac > a:active {
-    background: var(--button-hover-light);
+.mixed-a-input-ac > button:focus {
+    box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
+}
+
+.mixed-a-input-ac > button.active {
+    background: var(--primary-strong-cyan);
     color: var(--very-dark-cyan);
 }
 
+.mixed-a-input-ac > button.active:focus {
+    box-shadow: 0 0 2px 2px var(--very-dark-cyan);
+}
 
 .result-box {
     background: var(--very-dark-cyan);
     border-radius: var(--result-bd-rad);
+    margin: 0 20px 20px 20px;
+    padding: 20px;
 }
 
 .result-display-container-ac > * + * {
@@ -264,6 +295,7 @@ input.uniform::placeholder {
     font-weight: bold;
     font-size: var(--input-font-size);
     
+    width: 100%;
     height: var(--input-height);
     color: var(--very-dark-cyan);
     background: var(--primary-strong-cyan);
@@ -274,6 +306,10 @@ input.uniform::placeholder {
 
 .reset-btn:hover {
     background: var(--button-hover-light);
+}
+
+.reset-btn:focus {
+    box-shadow: 0 0 2px 2px var(--button-hover-light);
 }
 
 .reset-btn.empty {
@@ -328,6 +364,7 @@ input.uniform::placeholder {
 
     .result-box {
         margin: var(--app-normal-gap);
+        padding: var(--app-normal-gap);
         max-width: 50%;
         flex-grow: 1;
     }

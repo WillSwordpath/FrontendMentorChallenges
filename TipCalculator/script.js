@@ -8,7 +8,6 @@ selInput.addEventListener('input', selInputCb)
 const selInputReg = /^(\d*)(%?)$/
 const selInputError = document.getElementById('select-tip-error')
 const selInputErrorDefault = 'No tip selected'
-selInputError.textContent = selInputErrorDefault
 let tipValue
 let selectedButton
 function selTipBtnClickCb(event) {
@@ -19,6 +18,7 @@ function selTipBtnClickCb(event) {
         tipValue = undefined
         turnOffSelBtn(button)
         selInputError.textContent = selInputErrorDefault
+        selInput.classList.add('error')
         calculateResult()
     } else {
         turnOffSelBtn(selectedButton)
@@ -29,6 +29,7 @@ function selTipBtnClickCb(event) {
         const match = selInputReg.exec(button.textContent)
         const num = Number(match[1]) * 1e-2
         tipValue = num
+        selInput.classList.remove('error')
         calculateResult()
     }
 }
@@ -48,12 +49,14 @@ function resetSelectTip() {
     tipValue = undefined
     selInput.value = ''
     selInputError.textContent = selInputErrorDefault
+    selInput.classList.add('error')
 }
 function selInputCb(event) {
     const input = event.target
     turnOffSelBtn(selectedButton)
     selectedButton = undefined
     tipValue = undefined
+    selInput.classList.add('error')
     if (!input.value) {
         selInputError.textContent = selInputErrorDefault
         calculateResult()
@@ -73,6 +76,7 @@ function selInputCb(event) {
     }
     tipValue = num * 1e-2
     selInputError.textContent = ''
+    selInput.classList.remove('error')
     calculateResult()
 }
 
@@ -80,7 +84,6 @@ const billInput = document.getElementById('bill-input')
 const billError = document.getElementById('bill-error')
 const billInputReg = /^[\d.]*$/
 let billValue
-setBillFields(null, 0)
 billInput.addEventListener('input', billInputCb)
 function billInputCb(event) {
     const input = event.target
@@ -107,10 +110,12 @@ function billInputCb(event) {
 function setBillFields(error, value) {
     if (error) {
         billError.textContent = error
+        billInput.classList.add('error')
         billValue = undefined
         return
     }
     billError.textContent = ''
+    billInput.classList.remove('error')
     billValue = value
 }
 function resetBill() {
@@ -121,14 +126,15 @@ function resetBill() {
 const peopleInput = document.getElementById('people-input')
 const peopleError = document.getElementById('people-error')
 let peopleValue
-setPeopleFields('Can\'t be zero')
 function setPeopleFields(error, value) {
     if (error) {
         peopleError.textContent = error
+        peopleInput.classList.add('error')
         peopleValue = undefined
         return
     }
     peopleError.textContent = ''
+    peopleInput.classList.remove('error')
     peopleValue = value
 }
 const peopleInputReg = /^\d*$/
@@ -175,7 +181,7 @@ function calculateResult() {
     } else {
         resetBtn.classList.remove('empty')
     }
-    if (!billValue || !tipValue || !peopleValue) {
+    if (billValue == null || tipValue == null || peopleValue == null) {
         tipResult.textContent = '$0.00'
         totalResult.textContent = '$0.00'
         return

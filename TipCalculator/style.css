@@ -151,16 +151,16 @@ input.uniform:hover {
     box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
 }
 
+input.uniform.error {
+    box-shadow: 0 0 2px 2px var(--error-orange);
+}
+
 input.uniform:focus {
     box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
 }
 
 input.uniform::placeholder {
     color: var(--darker-grayish-cyan);
-}
-
-input.uniform.error {
-    box-shadow: 0 0 2px 2px var(--error-orange);
 }
 
 .titled-area {

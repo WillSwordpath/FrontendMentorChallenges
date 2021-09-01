@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="./style.css">
+  <title>Tip Calculator</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <!-- <style>
+    .attribution { font-size: 15px; text-align: center; }
+    .attribution a { color: hsl(228, 66%, 58%); text-decoration: none; }
+  </style> -->
+</head>
+<body>
+
+  <div class="app-container">
+
+    <div class="app-background">
+      <div class="logo-container-c">
+        <img src="./images/logo.svg" alt="Tip Calculator">
+      </div>
+    </div>
+
+
+    <div class="func-container">
+      <div class="input-box gapped-flow-ac">
+        <div class="titled-area">
+          <div class="title-with-error">
+            <p>Bill</p>
+            <p class="error-message" id="bill-error"></p>
+          </div>
+          <div class="iconed-input-c">
+            <img src="./images/icon-dollar.svg" alt="">
+            <input class="uniform" type="tel" placeholder="0" id="bill-input">
+          </div>
+        </div>
+        <div class="titled-area">
+          <div class="title-with-error">
+            <p>Select Tip %</p>
+            <p class="error-message" id="select-tip-error"></p>
+          </div>
+          <div class="mixed-a-input-ac" id="select-tip">
+            <button>5%</button>
+            <button>10%</button>
+            <button>15%</button>
+            <button>25%</button>
+            <button>50%</button>
+            <input class="uniform" type="tel" placeholder="Custom">
+          </div>
+        </div>
+        <div class="titled-area">
+          <div class="title-with-error">
+            <p>Number of People</p>
+            <p class="error-message" id="people-error"></p>
+          </div>
+          <div class="iconed-input-c">
+            <img src="./images/icon-person.svg" alt="">
+            <input class="uniform" type="tel" placeholder="0" id="people-input">
+          </div>
+        </div>
+      </div>
+      <div class="result-box gapped-flow-ac">
+        <div class="result-display-container-ac">
+          <div class="result-display-c">
+            <div class="-title">
+              <h3>Tip Amount</h3>
+              <p>/ person</p>
+            </div>
+            <div class="-dollar" id="result-tip">
+              $0.00
+            </div>
+          </div>
+          <div class="result-display-c">
+            <div class="-title">
+              <h3>Total</h3>
+              <p>/ person</p>
+            </div>
+            <div class="-dollar" id="result-total">
+              $0.00
+            </div>
+          </div>
+        </div>
+        <button class="reset-btn empty" id="reset-btn">RESET</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div> -->
+
+  <script src="./script.js"></script>
+</body>
+</html>

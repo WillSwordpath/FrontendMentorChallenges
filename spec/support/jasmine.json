@@ -1,0 +1,12 @@
+{
+  "spec_dir": ".",
+  "spec_files": [
+    "spec/**/*[sS]pec.?(m)js",
+    "TipCalculator/project/**/*[sS]pec.?(m)js"
+  ],
+  "helpers": [
+    "helpers/**/*.?(m)js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": true
+}

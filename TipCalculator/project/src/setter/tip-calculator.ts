@@ -1,5 +1,5 @@
 import { tipCalculator } from '../global'
-import { errorBill, errorPeople, inputBill, inputPeople } from '../identity/tip-calculator'
+import { errorBill, errorPeople, errorTip, inputBill, inputPeople, inputTip } from '../identity/tip-calculator'
 import promptTipResult from '../prompt/tip-calc-result'
 
 export function setBillFields(error?: string, value?: number): void {
@@ -11,6 +11,19 @@ export function setBillFields(error?: string, value?: number): void {
         errorBill.textContent = ''
         inputBill.classList.remove('error')
         tipCalculator.bill = value
+    }
+    promptTipResult()
+}
+
+export function setTipFields(error?: string, value?: number): void {
+    if (error) {
+        errorTip.textContent = error
+        inputTip.classList.add('error')
+        tipCalculator.tip = undefined
+    } else {
+        errorTip.textContent = ''
+        inputTip.classList.remove('error')
+        tipCalculator.tip = value
     }
     promptTipResult()
 }

@@ -2,6 +2,7 @@ export const inputBill = document.getElementById('bill-input') as HTMLInputEleme
 export const errorBill = document.getElementById('bill-error') as HTMLParagraphElement
 
 export const selectTip = document.getElementById('select-tip') as HTMLDivElement
+export const selTipBtns = Array.from(selectTip.getElementsByTagName('button'))
 export const inputTip = selectTip.getElementsByTagName('input')[0]
 export const errorTip = document.getElementById('select-tip-error') as HTMLParagraphElement
 

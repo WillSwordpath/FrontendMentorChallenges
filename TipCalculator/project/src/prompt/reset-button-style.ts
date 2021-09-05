@@ -10,7 +10,7 @@ import {
 } from '../identity/tip-calculator'
 
 function update() {
-    if (!tipCalculator.tip && !inputBill.value && !inputTip.value && !inputPeople.value) {  // TODO
+    if (!tipCalculator.tipSelectedBtn && !inputBill.value && !inputTip.value && !inputPeople.value) {
         buttonReset.classList.add('empty')
     } else {
         buttonReset.classList.remove('empty')

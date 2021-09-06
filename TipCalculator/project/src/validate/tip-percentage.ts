@@ -1,6 +1,6 @@
 import { INumericValidateResult } from "./_structure"
 
-const regex = /^(-?\d+)(%?)$/
+const regex = /^(-?[\d.]+)(%?)$/
 const noTipError = "No tip selected"
 const unmatchError = "Invalid input"
 const outRangeError = "Input out of range"

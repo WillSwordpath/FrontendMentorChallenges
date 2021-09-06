@@ -23,6 +23,8 @@ describe('validate-people-num', function() {
         expect(validate('10')).toEqual({result: 10})
         expect(validate('112')).toEqual({result: 112})
         expect(validate('546')).toEqual({result: 546})
+        expect(validate('050')).toEqual({result: 50})
+        expect(validate('00800')).toEqual({result: 800})
     })
 
     it('validates invalid inputs', function() {

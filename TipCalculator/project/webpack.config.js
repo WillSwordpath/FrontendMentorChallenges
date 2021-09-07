@@ -8,7 +8,7 @@ const outputPath = path.resolve(__dirname, '..')
 
 module.exports = [
     {
-        entry: path.resolve(__dirname, 'src/main.ts'),
+        entry: path.resolve(__dirname, 'src/main.react.tsx'),
         output: {
             path: outputPath,
             filename: 'main.js'
@@ -20,9 +20,13 @@ module.exports = [
                         from: path.resolve(__dirname, 'assets'),
                         to: '.',
                     },
+                    // {
+                    //     from: path.resolve(__dirname, './src/index.html'),
+                    //     to: './[name][ext]',
+                    // },
                     {
-                        from: path.resolve(__dirname, './src/index.html'),
-                        to: './[name][ext]',
+                        from: path.resolve(__dirname, './src/index.react.html'),
+                        to: './index.html',
                     },
                 ],
             }),
@@ -31,7 +35,7 @@ module.exports = [
             })
         ],
         resolve: {
-            extensions: ['.ts', '.js'],
+            extensions: ['.tsx', '.jsx', '.ts', '.js'],
         },
         // target: 'es5',
         target: 'web',
@@ -52,7 +56,7 @@ module.exports = [
                     ]
                 },
                 {
-                    test: /\.ts$/i,
+                    test: /\.tsx?$/i,
                     use: 'ts-loader',
                     exclude: /node_modules/,
                 }

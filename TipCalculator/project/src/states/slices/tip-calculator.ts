@@ -15,8 +15,8 @@ const slice = createSlice({
         hideInitTitle: state => {
             state.title = 'Centralized State Management'
         },
-        showInitTitle: state => {
-            state.title = initialState.title
+        showInitTitle: (state, action: { payload: number }) => {
+            state.title = initialState.title + ' ' + action.payload
         }
     }
 })

@@ -7,6 +7,8 @@ export const store = configureStore({
     }
 })
 
+export const dispatch = store.dispatch.bind(store)
+
 export const initState = store.getState()
 
 export type stateType = typeof initState

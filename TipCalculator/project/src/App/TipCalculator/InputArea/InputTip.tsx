@@ -1,16 +1,12 @@
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { dispatch, stateType, tipCalculator } from '../../../states/store'
+import { shallowEqual, onInputTip } from '../../../states/funcs'
 
 export default React.memo(function () {
-    const btns = useSelector(
-        (state: stateType) => state.tipCalculator.tipBtns,
-        (left, right) => left.length == right.length &&
-            left.reduce(
-            (sum: boolean, one, idx) => sum && one.value == right[idx].value,
-            true
-        ))
+    const btns = useSelector((state: stateType) => state.tipCalculator.tipBtns, tipCalculator.tipBtnsEqual)
     const slctdBtnIdx = useSelector((state: stateType) => state.tipCalculator.slctdTipBtnIdx)
+    const inputTip = useSelector((state: stateType) => state.tipCalculator.inputFlds.tip, shallowEqual)
     return (
     <div className="titled-area">
         <div className="title-with-error">
@@ -25,7 +21,8 @@ export default React.memo(function () {
                     className={ idx == slctdBtnIdx ? 'active' : undefined }
                 >{ `${btn.value * 1e2}%` }</button>)
             }
-            <input className="uniform" type="tel" placeholder="Custom"></input>
+            <input className="uniform" type="tel" placeholder="Custom"
+                value={inputTip.display} onInput={onInputTip}></input>
         </div>
     </div>
     )

@@ -1,15 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-interface ITipBtnControl {
+
+export interface ITipBtnControl {
     value: number
 }
 
-interface ITipCalculatorState {
+export interface IInputFldControlUpdate {
+    value?: number
+    display?: string
+    error?: string
+}
+
+export interface IInputFldControl extends IInputFldControlUpdate {
+    display: string
+}
+
+export enum EInputFieldName {
+    bill = 'bill',
+    tip = 'tip',
+    people = 'people'
+}
+
+export interface ITipCalculatorState {
+    inputFlds: {
+        [EInputFieldName.bill]: IInputFldControl
+        [EInputFieldName.tip]: IInputFldControl
+        [EInputFieldName.people]: IInputFldControl
+    }
     slctdTipBtnIdx?: number
     tipBtns: ITipBtnControl[]
 }
 
 const initialState: ITipCalculatorState = {
+    inputFlds: {
+        bill: { display: '' },
+        tip: { display: '' },
+        people: { display: '' },
+    },
     tipBtns: [
         { value: 5e-2 },
         { value: 10e-2 },
@@ -19,22 +46,37 @@ const initialState: ITipCalculatorState = {
     ]
 }
 
+export const tipBtnsEqual = (left: ITipBtnControl[], right: ITipBtnControl[]): boolean =>
+    left.length == right.length &&
+    left.reduce(
+        (sum: boolean, one, idx) => sum && one.value == right[idx].value,
+        true)
+
 const slice = createSlice({
     name: 'tipCalculator',
     initialState,
     reducers: {
-        slctTipBtn: (state, action: { payload: number }) => {
-            if (state.slctdTipBtnIdx == action.payload) {
+        slctTipBtn: (state, { payload }: { payload: number | undefined }) => {
+            if (state.slctdTipBtnIdx == payload) {
                 state.slctdTipBtnIdx = undefined
             } else {
-                state.slctdTipBtnIdx = action.payload
+                state.slctdTipBtnIdx = payload
             }
+        },
+        setInputFld: (state, { payload }: {
+            payload: {
+                name: EInputFieldName
+                update: IInputFldControlUpdate
+            }
+        }) => {
+            Object.assign(state.inputFlds[payload.name], payload.update)
         }
     }
 })
 
 export const {
     slctTipBtn,
+    setInputFld
 } = slice.actions
 
 export const tipCalculatorReducer = slice.reducer

@@ -3,6 +3,7 @@ import * as React from 'react'
 export default React.memo(function () {
     return (
     <div className="result-box gapped-flow-ac">
+
         <div className="result-display-container-ac">
             <div className="result-display-c">
                 <div className="-title">
@@ -13,6 +14,7 @@ export default React.memo(function () {
                 $0.00
                 </div>
             </div>
+            
             <div className="result-display-c">
                 <div className="-title">
                     <h3>Total</h3>
@@ -23,6 +25,7 @@ export default React.memo(function () {
                 </div>
             </div>
         </div>
+
         <button className="reset-btn empty" id="reset-btn">RESET</button>
     </div>
     )

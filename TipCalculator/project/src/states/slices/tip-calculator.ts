@@ -1,29 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+interface ITipBtnControl {
+    value: number
+}
+
 interface ITipCalculatorState {
-    title: string
+    slctdTipBtnIdx?: number
+    tipBtns: ITipBtnControl[]
 }
 
 const initialState: ITipCalculatorState = {
-    title: "Great React-Redux",
+    tipBtns: [
+        { value: 5e-2 },
+        { value: 10e-2 },
+        { value: 15e-2 },
+        { value: 25e-2 },
+        { value: 50e-2 },
+    ]
 }
 
 const slice = createSlice({
     name: 'tipCalculator',
     initialState,
     reducers: {
-        hideInitTitle: state => {
-            state.title = 'Centralized State Management'
-        },
-        showInitTitle: (state, action: { payload: number }) => {
-            state.title = initialState.title + ' ' + action.payload
+        slctTipBtn: (state, action: { payload: number }) => {
+            if (state.slctdTipBtnIdx == action.payload) {
+                state.slctdTipBtnIdx = undefined
+            } else {
+                state.slctdTipBtnIdx = action.payload
+            }
         }
     }
 })
 
 export const {
-    hideInitTitle,
-    showInitTitle
+    slctTipBtn,
 } = slice.actions
 
 export const tipCalculatorReducer = slice.reducer

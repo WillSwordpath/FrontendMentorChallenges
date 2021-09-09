@@ -42,11 +42,6 @@ function onFieldInput(field: EInputFieldName, ev: FormEvent<HTMLInputElement>): 
             error: valiRes.errMsg,
         }
     }))
-    switch (field) {
-        case EInputFieldName.tip:
-            dispatch(slctTipBtn(undefined))
-            break
-    }
 }
 
 export const onInputBill = onFieldInput.bind(undefined, EInputFieldName.bill)

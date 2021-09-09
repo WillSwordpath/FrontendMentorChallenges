@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import valiTipPerc from "../../validate/tip-percentage"
 
 
 export interface ITipBtnControl {
@@ -52,6 +53,8 @@ export const tipBtnsEqual = (left: ITipBtnControl[], right: ITipBtnControl[]): b
         (sum: boolean, one, idx) => sum && one.value == right[idx].value,
         true)
 
+const emptyTipValiRes = valiTipPerc('')
+
 const slice = createSlice({
     name: 'tipCalculator',
     initialState,
@@ -62,6 +65,18 @@ const slice = createSlice({
             } else {
                 state.slctdTipBtnIdx = payload
             }
+            if (state.slctdTipBtnIdx != undefined) {
+                state.inputFlds.tip = {
+                    display: '',
+                    value: state.tipBtns[state.slctdTipBtnIdx].value
+                }
+            } else {
+                state.inputFlds.tip = {
+                    error: emptyTipValiRes.errMsg,
+                    value: emptyTipValiRes.result,
+                    display: ''
+                }
+            }
         },
         setInputFld: (state, { payload }: {
             payload: {
@@ -70,6 +85,11 @@ const slice = createSlice({
             }
         }) => {
             Object.assign(state.inputFlds[payload.name], payload.update)
+            switch (payload.name) {
+                case EInputFieldName.tip:
+                    state.slctdTipBtnIdx = undefined
+                    break
+            }
         }
     }
 })

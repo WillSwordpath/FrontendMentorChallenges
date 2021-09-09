@@ -12,8 +12,10 @@ export interface IInputFldControlUpdate {
     error?: string
 }
 
-export interface IInputFldControl extends IInputFldControlUpdate {
+export interface IInputFldControl {
     display: string
+    error: string | undefined
+    value: number | undefined
 }
 
 export enum EInputFieldName {
@@ -23,21 +25,30 @@ export enum EInputFieldName {
 }
 
 export interface ITipCalculatorState {
-    inputFlds: {
-        [EInputFieldName.bill]: IInputFldControl
-        [EInputFieldName.tip]: IInputFldControl
-        [EInputFieldName.people]: IInputFldControl
-    }
-    slctdTipBtnIdx?: number
+    inputFlds: {[str in EInputFieldName]: IInputFldControl}
+    slctdTipBtnIdx: number | undefined
     tipBtns: ITipBtnControl[]
 }
 
 const initialState: ITipCalculatorState = {
     inputFlds: {
-        bill: { display: '' },
-        tip: { display: '' },
-        people: { display: '' },
+        bill: {
+            display: '',
+            error: undefined,
+            value: undefined
+        },
+        tip: {
+            display: '',
+            error: undefined,
+            value: undefined
+        },
+        people: {
+            display: '',
+            error: undefined,
+            value: undefined
+        },
     },
+    slctdTipBtnIdx: undefined,
     tipBtns: [
         { value: 5e-2 },
         { value: 10e-2 },
@@ -68,7 +79,8 @@ const slice = createSlice({
             if (state.slctdTipBtnIdx != undefined) {
                 state.inputFlds.tip = {
                     display: '',
-                    value: state.tipBtns[state.slctdTipBtnIdx].value
+                    value: state.tipBtns[state.slctdTipBtnIdx].value,
+                    error: undefined
                 }
             } else {
                 state.inputFlds.tip = {

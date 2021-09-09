@@ -1,0 +1,34 @@
+.app-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--app-header-height) + var(--app-ct-bd-rad));
+
+    background: var(--light-grayish-cyan);
+}
+
+.logo-container-c {
+    position: relative;
+    width: 100%;
+    height: calc(var(--app-header-height));
+}
+
+.logo-container-c > img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+@media (min-width: 700px) {
+    .app-background {
+        position: static;
+        background: none;
+
+        height: var(--app-header-height);
+    }
+}

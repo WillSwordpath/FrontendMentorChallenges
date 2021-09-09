@@ -1,0 +1,21 @@
+.iconed-input-c {
+    position: relative;
+}
+
+.iconed-input-c > img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 20px;
+    height: 20px;
+}
+
+.iconed-input-c > input {
+    display: block;
+    margin-top: var(--app-small-gap);
+    width: 100%;
+}
+
+.iconed-input-c > input.uniform {
+    padding: 0 20px 0 50px;
+}

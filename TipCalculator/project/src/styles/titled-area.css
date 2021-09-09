@@ -1,0 +1,17 @@
+
+.titled-area {
+    font-size: var(--titled-area-font-size);
+    font-weight: bold;
+    color: var(--darker-grayish-cyan);
+}
+
+.title-with-error {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.error-message {
+    color: var(--error-orange);
+}
+

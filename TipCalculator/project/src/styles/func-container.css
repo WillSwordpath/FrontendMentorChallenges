@@ -1,0 +1,45 @@
+
+.func-container {
+    position: absolute;
+    top: var(--app-header-height);
+    left: 0;
+    width: 100%;
+
+    background: var(--white);
+
+    border-top-left-radius: var(--app-ct-bd-rad);
+    border-top-right-radius: var(--app-ct-bd-rad);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.gapped-flow-ac {
+    padding: var(--app-normal-gap);
+}
+
+.gapped-flow-ac > * + * {
+    margin-top: var(--app-normal-gap);
+}
+
+@media (min-width: 700px) {
+    .func-container {
+        position: static;
+        max-width: 900px;        
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        border-bottom-left-radius: var(--app-ct-bd-rad);
+        border-bottom-right-radius: var(--app-ct-bd-rad);
+
+        margin-bottom: var(--app-header-height);
+    }
+
+    .gapped-flow-ac {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}

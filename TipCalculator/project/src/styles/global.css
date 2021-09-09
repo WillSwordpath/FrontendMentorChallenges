@@ -1,0 +1,29 @@
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+input,
+button {
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: 1em;
+}
+
+input:focus,
+button:focus {
+    border: none;
+    outline: none;
+}

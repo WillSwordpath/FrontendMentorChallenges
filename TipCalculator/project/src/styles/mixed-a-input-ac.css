@@ -1,0 +1,54 @@
+.mixed-a-input-ac {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mixed-a-input-ac > * {
+    display: block;
+    margin-top: var(--app-small-gap);
+    width: calc(50% - var(--app-small-gap) * .5);
+}
+
+.mixed-a-input-ac > button {
+    cursor: pointer;
+
+    height: var(--input-height);
+    line-height: var(--input-height);
+    text-align: center;
+
+    background: var(--very-dark-cyan);
+    border-radius: var(--input-bd-rad);
+    font-size: var(--input-font-size);
+    
+    color: var(--white);
+
+    transition:
+        color var(--transition-fast),
+        background var(--transition-fast);
+}
+
+.mixed-a-input-ac > button:hover,
+.mixed-a-input-ac > button:focus {
+    background: var(--button-hover-light);
+    color: var(--very-dark-cyan);
+}
+
+.mixed-a-input-ac > button:focus {
+    box-shadow: 0 0 2px 2px var(--primary-strong-cyan);
+}
+
+.mixed-a-input-ac > button.active {
+    background: var(--primary-strong-cyan);
+    color: var(--very-dark-cyan);
+}
+
+.mixed-a-input-ac > button.active:focus {
+    box-shadow: 0 0 2px 2px var(--very-dark-cyan);
+}
+
+@media (min-width: 700px) {
+    .mixed-a-input-ac > * {
+        width: calc((100% - var(--app-small-gap) * 2) / 3);
+    }
+}

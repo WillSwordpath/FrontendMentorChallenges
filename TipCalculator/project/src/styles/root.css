@@ -1,0 +1,63 @@
+@font-face {
+    font-family: "Space Mono";
+    font-weight: normal;
+    src: url("./fonts/SpaceMono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Space Mono";
+    font-weight: bold;
+    src: url("./fonts/SpaceMono-Bold.ttf") format("truetype");
+}
+
+:root {
+    --primary-strong-cyan: hsl(172, 67%, 45%);
+    
+    --very-dark-cyan: hsl(183, 100%, 15%);
+    --darker-grayish-cyan: hsl(186, 14%, 43%);
+    --dark-grayish-cyan: hsl(184, 14%, 56%);
+    --light-grayish-cyan: hsl(185, 41%, 84%);
+    --lighter-grayish-cyan: hsl(189, 41%, 97%);
+
+    --button-hover-light: rgba(159,232,223,255);
+
+    --white: hsl(0, 0%, 100%);
+    --error-orange: rgb(255, 95, 0);
+
+
+    --space-mono: "Space Mono", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --input-font-size: 24px;
+    --titled-area-font-size: 18px;
+
+    font-size: 16px;
+
+
+    --input-height: 56px;
+    --input-bd-rad: 8px;
+    --result-bd-rad: 16px;
+    --app-ct-bd-rad: 20px;
+    --app-header-height: 150px;
+    --line-height-normal: 1.6;
+    --app-normal-gap: 30px;
+    --app-small-gap: 15px;
+    --transition-fast: .2s;
+}
+
+#root {
+    min-height: 100vh;
+
+    font-family: var(--space-mono);
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
+    background: var(--white);
+}
+
+@media (min-width: 700px) {
+    #root {
+        background: var(--light-grayish-cyan);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

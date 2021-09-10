@@ -1,0 +1,23 @@
+@font-face {
+    font-family: Barlow;
+    font-weight: normal;
+    src: url("./fonts/BarlowSemiCondensed-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Barlow;
+    font-weight: bold;
+    src: url("./fonts/BarlowSemiCondensed-Bold.ttf") format("truetype");
+}
+
+:root {
+    font-size: 16px;
+
+    --Barlow: Barlow, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+    min-height: 100vh;
+    font-family: var(--Barlow);
+    background: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+}

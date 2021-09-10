@@ -8,7 +8,9 @@
     "testipcal": "npm run cletipcal && tsc -p ./TipCalculator/project/spec.tsconfig.json",
     "cletipcal": "del .\\TipCalculator\\project\\tests\\* /Q",
     "devtipcal": "webpack serve --open --mode development --config ./TipCalculator/project/webpack.config.js",
-    "distipcal": "webpack --mode production --config ./TipCalculator/project/webpack.config.js"
+    "distipcal": "webpack --mode production --config ./TipCalculator/project/webpack.config.js",
+    "devrockpap": "webpack serve --open --mode development --config ./RockPaperScissors/project/webpack.config.js",
+    "disrockpap": "webpack --mode production --config ./RockPaperScissors/project/webpack.config.js"
   },
   "repository": {
     "type": "git",

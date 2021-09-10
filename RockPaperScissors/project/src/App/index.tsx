@@ -5,13 +5,12 @@ import Header from './Header'
 import SVGDefs from './SVGDefs'
 
 export default React.memo(function () {
-    return (
+    return <>
+        <SVGDefs></SVGDefs>
         <div className="app-container">
-            <SVGDefs></SVGDefs>
-
             <Header></Header>
             <Content></Content>
             <Footer></Footer>
         </div>
-    )
+    </>
 })

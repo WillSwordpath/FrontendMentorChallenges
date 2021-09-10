@@ -1,0 +1,33 @@
+.choice-box {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.choice-box::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.choice-ring {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    filter: drop-shadow(0 6px 3px rgba(0,0,0,.4));
+}
+
+.choice-broke {
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform-origin: top;
+    transform: scaleY(1.06);
+}

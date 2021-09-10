@@ -1,0 +1,24 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 60px 0;
+}
+
+.rules-btn {
+    font-size: 20px;
+    color: white;
+    border: 2px solid #B1B8CF;
+    border-radius: 10px;
+    padding: 7px 35px;
+    transition: .2s;
+}
+
+.rules-btn:focus {
+    border: 2px solid #B1B8CF;
+}
+
+.rules-btn:focus,
+.rules-btn:hover {
+    background-color: #8a9bd3;
+}

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { deepEqual } from '../../states/funcs'
 import './Choice.css'
 
 export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor, offset }: {
@@ -26,4 +27,6 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
             </div>
         </span>
     )
+}, (prev, next) => {
+    return deepEqual(prev, next)
 })

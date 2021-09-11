@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { brokenRingAssets } from '../../constants/broken-ring'
 
 export default React.memo(function () {
     return (
@@ -8,15 +9,14 @@ export default React.memo(function () {
             height: '0'
         }}>
             <defs>
-                <linearGradient id="broken-ring-orange" x1="0" x2="0" y1=".5" y2="1.06">
-                <stop offset=".7" stop-color="orange" />
-                <stop offset="1" stop-color="#A14D00" />
-                </linearGradient>
-
-                <linearGradient id="broken-ring-blue" x1="0" x2="0" y1=".5" y2="1.06">
-                <stop offset=".7" stop-color="#5270F4" />
-                <stop offset="1" stop-color="#2B44B7" />
-                </linearGradient>
+                {
+                    brokenRingAssets.map(brc =>
+                        <linearGradient id={brc.id} x1="0" x2="0" y1=".5" y2="1.06">
+                        <stop offset=".7" stop-color={brc.start} />
+                        <stop offset="1" stop-color={brc.end} />
+                        </linearGradient>
+                    )
+                }
             </defs>
         </svg>
     )

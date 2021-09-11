@@ -7,8 +7,8 @@ export interface IGameState {
         yPerc: number
     }
     secSize: {
-        width: number
-        height: number
+        width: number | undefined
+        height: number | undefined
     }
 }
 
@@ -19,8 +19,8 @@ const initGameState: IGameState = {
         yPerc: 0.5
     },
     secSize: {
-        width: 0,
-        height: 0
+        width: undefined,
+        height: undefined
     }
 }
 

@@ -12,6 +12,8 @@ const centerDistance = 110
 export default memo(function () {
     const anchorPos = useSelector((state: stateType) => {
         const game = state.game
+        if (game.secSize.width == undefined || game.secSize.height == undefined)
+            return {}
         return {
             x: game.secSize.width * game.chcGrpOffset.xPerc,
             y: game.secSize.height * game.chcGrpOffset.yPerc
@@ -38,21 +40,25 @@ export default memo(function () {
     }
     return (
         <section className="content" ref={secRef}>
-            <span className="choice-group-anchor" style={{
-                left: anchorPos.x + 'px',
-                top: anchorPos.y + 'px'
-            }}>
-                {
-                    brokenRingAssets.map((brc, idx) =>
-                        <Choice key={brc.id}
-                        offset={pos[idx]}
-                        ringStrokeColor={brc.start}
-                        brokenRingGradId={brc.id}
-                        imgSrc={brc.img}
-                        ></Choice>
-                    )
-                }
-            </span>
+            {
+                anchorPos.x != undefined && anchorPos.y != undefined ?
+                <span className="choice-group-anchor" style={{
+                    left: anchorPos.x + 'px',
+                    top: anchorPos.y + 'px'
+                }}>
+                    {
+                        brokenRingAssets.map((brc, idx) =>
+                            <Choice key={brc.id}
+                            offset={pos[idx]}
+                            ringStrokeColor={brc.start}
+                            brokenRingGradId={brc.id}
+                            imgSrc={brc.img}
+                            ></Choice>
+                        )
+                    }
+                </span>
+                : undefined
+            }
         </section>
     )
 })

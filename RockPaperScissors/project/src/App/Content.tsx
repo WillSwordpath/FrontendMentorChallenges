@@ -12,7 +12,8 @@ export default React.memo(function () {
             <span className="choice-group-anchor">
                 {
                     brokenRingAssets.map((brc, idx) =>
-                        <Choice offset={pos[idx]}
+                        <Choice key={brc.id}
+                        offset={pos[idx]}
                         ringStrokeColor={brc.start}
                         brokenRingGradId={brc.id}
                         imgSrc={brc.img}

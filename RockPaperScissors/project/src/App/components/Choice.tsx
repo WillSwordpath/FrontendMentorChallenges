@@ -17,10 +17,10 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
         }}>
             <div className="choice-box">
                 <svg viewBox="0 0 100 100" className="choice-ring">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke={ringStrokeColor} stroke-width="10"></circle>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke={ringStrokeColor} strokeWidth="10"></circle>
                 </svg>
                 <svg viewBox="0 0 100 50" className="choice-broke">
-                    <circle cx="50" cy="0" r="45" fill="none" stroke={`url('#${brokenRingGradId}')`} stroke-width="10"></circle>
+                    <circle cx="50" cy="0" r="45" fill="none" stroke={`url('#${brokenRingGradId}')`} strokeWidth="10"></circle>
                 </svg>
                 ,<img src={imgSrc} alt="" className="choice-img" />
             </div>

@@ -11,9 +11,9 @@ export default React.memo(function () {
             <defs>
                 {
                     brokenRingAssets.map(brc =>
-                        <linearGradient id={brc.id} x1="0" x2="0" y1=".5" y2="1.06">
-                        <stop offset=".7" stop-color={brc.start} />
-                        <stop offset="1" stop-color={brc.end} />
+                        <linearGradient key={brc.id} id={brc.id} x1="0" x2="0" y1=".5" y2="1.06">
+                        <stop offset=".7" stopColor={brc.start} />
+                        <stop offset="1" stopColor={brc.end} />
                         </linearGradient>
                     )
                 }

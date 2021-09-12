@@ -1,9 +1,9 @@
 
 type IBrokenRingColors = Array<{
-    id: string,
-    start: string,
-    end: string,
-    img: string
+    readonly id: string,
+    readonly start: string,
+    readonly end: string,
+    readonly img: string
 }>
 
 export const brokenRingAssets: IBrokenRingColors = [

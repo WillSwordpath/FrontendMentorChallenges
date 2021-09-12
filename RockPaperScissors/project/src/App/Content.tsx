@@ -3,11 +3,10 @@ import { memo, useRef, useEffect } from 'react'
 import Choice from './components/Choice'
 import './Content.css'
 import { computePositions, brokenRingAssets } from '../constants/broken-ring'
-import { dispatch, IGameState, setSecSize, stateType } from '../states/store'
+import { dispatch, setSecSize, stateType } from '../states/store'
 import { useSelector } from 'react-redux'
 import { shallowEqual } from '../states/funcs'
 
-const centerDistance = 110
 
 export default memo(function () {
     const anchorPos = useSelector((state: stateType) => {
@@ -19,7 +18,10 @@ export default memo(function () {
             y: game.secSize.height * game.chcGrpOffset.yPerc
         }
     }, shallowEqual)
+
+    const centerDistance = useSelector((state: stateType) => state.game.chcGrpRadius)
     const pos = computePositions(centerDistance)
+
     const secRef = useRef(null)
     useEffect(() => {
         resizeHandler()
@@ -38,6 +40,7 @@ export default memo(function () {
             height: rect.height
         }))
     }
+
     return (
         <section className="content" ref={secRef}>
             {

@@ -38,6 +38,9 @@ const slice = createSlice({
             width: number
             height: number
         }}) => {
+            const minHeight = payload.width * 0.8
+            // if (payload.height < minHeight)
+            payload.height = minHeight
             state.secSize = payload
         },
         setChcGrpRadius: (state, {payload}: {payload: number}) => {

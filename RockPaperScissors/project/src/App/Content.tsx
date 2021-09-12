@@ -45,12 +45,14 @@ export default memo(function () {
 
     const secRef = useRef(null)
     useEffect(() => {
-        resizeHandler()
         window.addEventListener('resize', resizeHandler)
         return () => {
             window.removeEventListener('resize', resizeHandler)
         }
     }, [])
+    useEffect(() => {
+        resizeHandler()
+    })
     function resizeHandler() {
         const section = secRef.current as HTMLElement | null
         if (!section)
@@ -61,9 +63,12 @@ export default memo(function () {
             height: rect.height
         }))
     }
+    const controlledSecSize = useSelector((state: stateType) => state.game.secSize, shallowEqual)
 
     return (
-        <section className="content" ref={secRef}>
+        <section className="content" ref={secRef} style={{
+            height: controlledSecSize.height
+        }}>
             {
                 anchorPos.x != undefined && anchorPos.y != undefined ?
                 <span className="choice-group-anchor" style={{

@@ -5,6 +5,7 @@ export default React.memo(function () {
     return (
         <svg style={{
             position: 'absolute',
+            zIndex: -999,
             width: '0',
             height: '0'
         }}>

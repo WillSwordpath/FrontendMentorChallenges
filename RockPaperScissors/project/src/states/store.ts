@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit"
+import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 export interface IGameState {
     rulesOpen: boolean
@@ -9,6 +9,7 @@ export interface IGameState {
     chcGrpRadius: number
     chcGrpSelected: string | undefined
     chcGrpUnSelOpa: number
+    chcGrpTransThunkId: string | undefined
     secSize: {
         width: number | undefined
         height: number | undefined
@@ -24,11 +25,34 @@ const initGameState: IGameState = {
     chcGrpRadius: 110,
     chcGrpSelected: undefined,
     chcGrpUnSelOpa: 1,
+    chcGrpTransThunkId: undefined,
     secSize: {
         width: undefined,
         height: undefined
     }
 }
+
+
+
+const thunkSelectChoice = createAsyncThunk('game/selectChoice',
+    async (selId: string | undefined, {dispatch, getState, requestId}): Promise<void> => {
+        const state = getState() as stateType
+        if (state.game.chcGrpTransThunkId != requestId)
+            return
+        await new Promise<void>(res => {
+            dispatch(selectChcGrpItem({
+                sel: selId,
+                unSelOpa: 0
+            }))
+            setTimeout(() => {
+                res()
+            }, 3000)
+        })
+        dispatch(setChcGrpRadius(0))
+        console.log('setting radius to 0') // TODO delete this line
+        return
+    }
+)
 
 const slice = createSlice({
     name: 'game',
@@ -53,6 +77,18 @@ const slice = createSlice({
             state.chcGrpSelected = payload.sel
             state.chcGrpUnSelOpa = payload.unSelOpa
         }
+    },
+    extraReducers: builder => {
+        builder
+        .addCase(thunkSelectChoice.pending, (state, action) => {
+            if (state.chcGrpTransThunkId == undefined)
+                state.chcGrpTransThunkId = action.meta.requestId
+        })
+        .addCase(thunkSelectChoice.fulfilled, (state, action) => {
+            if (state.chcGrpTransThunkId == action.meta.requestId) {
+                state.chcGrpTransThunkId = undefined
+            }
+        })
     }
 })
 
@@ -75,16 +111,4 @@ export const initState = store.getState()
 export type stateType = typeof initState
 
 
-export function onSelectChoice(selId?: string): void {
-    new Promise<void>(res => {
-        dispatch(selectChcGrpItem({
-            sel: selId,
-            unSelOpa: 0
-        }))
-        setTimeout(() => {
-            res()
-        }, 1000)
-    }).then(() => {
-        dispatch(setChcGrpRadius(0))
-    })
-}
+export const onSelectChoice = (selId?: string) => void dispatch(thunkSelectChoice(selId))

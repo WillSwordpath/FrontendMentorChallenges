@@ -14,6 +14,7 @@ export interface IGameState {
         width: number | undefined
         height: number | undefined
     }
+    currentScore: number
 }
 
 const initGameState: IGameState = {
@@ -29,7 +30,8 @@ const initGameState: IGameState = {
     secSize: {
         width: undefined,
         height: undefined
-    }
+    },
+    currentScore: 0
 }
 
 

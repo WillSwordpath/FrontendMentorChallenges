@@ -1,0 +1,16 @@
+.helper-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 80vw;
+    height: 80vh;
+    border-radius: 20px;
+    background-color: whitesmoke;
+}
+
+.helper-title {
+    font-size: 40px;
+}

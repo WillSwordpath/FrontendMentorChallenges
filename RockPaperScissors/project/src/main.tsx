@@ -1,8 +1,6 @@
 import './styles/root.css'
 import './styles/global.css'
 import './styles/app.css'
-import './styles/header.css'
-import './styles/footer.css'
 
 import * as React from 'react'
 import { render } from 'react-dom'

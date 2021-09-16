@@ -1,5 +1,5 @@
 .header {
-    padding: 40px;
+    padding: 40px 40px 20px 40px;
 }
 
 .logo-score-box {
@@ -10,6 +10,9 @@
     border: 3px solid #596A84;
     border-radius: 10px;
     padding: 14px;
+
+    max-width: 700px;
+    margin: auto;
 }
 
 .logo {
@@ -18,7 +21,7 @@
 }
 
 .score-box {
-    width: 80px;
+    min-width: 80px;
     height: 80px;
     background-color: #F7F7F7;
     border-radius: 8px;

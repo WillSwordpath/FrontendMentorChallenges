@@ -5,7 +5,7 @@ import Header from './Header'
 import * as ReactRedux from 'react-redux'
 
 /** 
- * A trivial example of writing React tests, which I believe is not that helpful.
+ * A trivial example of writing React tests, which is believed not that helpful.
  */
 
 describe('Header', function () {

@@ -31,7 +31,7 @@ const initGameState: IGameState = {
         width: undefined,
         height: undefined
     },
-    currentScore: 0
+    currentScore: 36000
 }
 
 

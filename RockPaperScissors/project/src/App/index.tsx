@@ -1,3 +1,4 @@
+import './index.css'
 import * as React from 'react'
 // import Content from './Content'
 import TestArea from './TestArea'

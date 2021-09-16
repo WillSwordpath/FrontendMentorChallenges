@@ -15,6 +15,7 @@ export interface IGameState {
         height: number | undefined
     }
     currentScore: number
+    showHelper: boolean
 }
 
 const initGameState: IGameState = {
@@ -31,7 +32,8 @@ const initGameState: IGameState = {
         width: undefined,
         height: undefined
     },
-    currentScore: 36000
+    currentScore: 3600,
+    showHelper: false
 }
 
 
@@ -78,6 +80,9 @@ const slice = createSlice({
         }}) => {
             state.chcGrpSelected = payload.sel
             state.chcGrpUnSelOpa = payload.unSelOpa
+        },
+        setShowHelper: (state, {payload}: {payload: boolean}) => {
+            state.showHelper = payload
         }
     },
     extraReducers: builder => {
@@ -97,7 +102,8 @@ const slice = createSlice({
 export const {
     setSecSize,
     setChcGrpRadius,
-    selectChcGrpItem
+    selectChcGrpItem,
+    setShowHelper
 } = slice.actions
 
 export const store = configureStore({

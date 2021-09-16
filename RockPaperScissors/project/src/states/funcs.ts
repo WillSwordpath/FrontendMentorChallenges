@@ -16,6 +16,14 @@ export function shallowEqual(objLeft: IIndexableObject, objRight: IIndexableObje
     return true
 }
 
+export function protectedShallowEqual(objLeft: any, objRight: any): boolean {
+    if (typeof objLeft != 'object' && typeof objRight != 'object')
+        return objLeft === objRight
+    if (typeof objLeft == 'object' && typeof objRight == 'object')
+        return shallowEqual(objLeft, objRight)
+    return false
+}
+
 export function deepEqual(objLeft: IIndexableObject, objRight: IIndexableObject): boolean {
     const keysLeft = Object.keys(objLeft)
     const keysRight = Object.keys(objRight)

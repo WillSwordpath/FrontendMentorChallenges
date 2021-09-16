@@ -1,6 +1,7 @@
 .content {
     position: relative;
     overflow: hidden;
+    flex-grow: 1;
 }
 
 .choice-group-anchor {

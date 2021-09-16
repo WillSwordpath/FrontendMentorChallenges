@@ -10,12 +10,14 @@ export interface IGameState {
     chcGrpSelected: string | undefined
     chcGrpUnSelOpa: number
     chcGrpTransThunkId: string | undefined
-    secSize: {
-        width: number | undefined
-        height: number | undefined
-    }
     currentScore: number
     showHelper: boolean
+    contentSizes: {
+        anchorPos: {
+            x: number
+            y: number
+        } | undefined
+    }
 }
 
 const initGameState: IGameState = {
@@ -28,12 +30,11 @@ const initGameState: IGameState = {
     chcGrpSelected: undefined,
     chcGrpUnSelOpa: 1,
     chcGrpTransThunkId: undefined,
-    secSize: {
-        width: undefined,
-        height: undefined
-    },
     currentScore: 3600,
-    showHelper: false
+    showHelper: false,
+    contentSizes: {
+        anchorPos: undefined
+    }
 }
 
 
@@ -62,15 +63,6 @@ const slice = createSlice({
     name: 'game',
     initialState: initGameState,
     reducers: {
-        setSecSize: (state, {payload}: {payload: {
-            width: number
-            height: number
-        }}) => {
-            const minHeight = payload.width * 0.8
-            // if (payload.height < minHeight)
-            payload.height = minHeight
-            state.secSize = payload
-        },
         setChcGrpRadius: (state, {payload}: {payload: number}) => {
             state.chcGrpRadius = payload
         },
@@ -83,6 +75,15 @@ const slice = createSlice({
         },
         setShowHelper: (state, {payload}: {payload: boolean}) => {
             state.showHelper = payload
+        },
+        updateContentSizes: (state, {payload}: {payload: {
+            ctnWidth: number
+            ctnHeight: number
+        }}) => {
+            state.contentSizes.anchorPos = {
+                x: payload.ctnWidth * .5,
+                y: payload.ctnHeight * .5
+            }
         }
     },
     extraReducers: builder => {
@@ -100,10 +101,10 @@ const slice = createSlice({
 })
 
 export const {
-    setSecSize,
     setChcGrpRadius,
     selectChcGrpItem,
-    setShowHelper
+    setShowHelper,
+    updateContentSizes
 } = slice.actions
 
 export const store = configureStore({

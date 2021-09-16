@@ -1,7 +1,6 @@
 import './index.css'
 import * as React from 'react'
-// import Content from './Content'
-import TestArea from './TestArea'
+import Content from './Content'
 import Footer from './Footer'
 import Header from './Header'
 import SVGDefs from './SVGDefs'
@@ -12,8 +11,7 @@ export default React.memo(function () {
         <SVGDefs></SVGDefs>
         <div className="app-container">
             <Header></Header>
-            {/* <Content></Content> */}
-            <TestArea/>
+            <Content></Content>
             <Footer></Footer>
             <Helper/>
         </div>

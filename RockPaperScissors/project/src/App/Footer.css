@@ -20,7 +20,7 @@
 
 .rules-btn:focus,
 .rules-btn:hover {
-    background-color: #8a9bd3;
+    background-color: #8a9bd380;
 }
 
 @media (min-width: 800px) {

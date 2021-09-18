@@ -4,11 +4,21 @@ import { deepEqual, shallowEqual } from '../../states/funcs'
 import { onSelectChoice, stateType } from '../../states/store'
 import './Choice.css'
 
-export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor, offset }: {
+// css determined size
+const intrinsicWidth = 200
+const invIntrWidth = 1 / intrinsicWidth
+function getScale(sizeInPixel: number) {
+    return sizeInPixel * invIntrWidth
+}
+
+export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor, offset = {
+    x: 0,
+    y: 0
+}}: {
     imgSrc: string
     ringStrokeColor: string
     brokenRingGradId: string
-    offset: {
+    offset?: {
         x: number
         y: number
     }
@@ -18,6 +28,7 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
         opacity: state.game.chcGrpSelected == brokenRingGradId ? 1 : state.game.chcGrpUnSelOpa
     }), shallowEqual)
     const thisSelected = select.id == brokenRingGradId
+    const choiceSize = useSelector((state: stateType) => state.game.contentSizes.choiceSize, shallowEqual)
     return (
         <span className="choice-anchor" style={{
             left: offset.x + 'px',
@@ -28,7 +39,7 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
             <div className="choice-box" onClick={onSelectChoice.bind(undefined, brokenRingGradId)} style={{
                 opacity: select.opacity,
                 transition: '.5s',
-                transform: thisSelected? 'scale(.8)' : 'scale(.4)'
+                transform: `scale(${ thisSelected ? getScale(choiceSize.sel) : getScale(choiceSize.unSel) })`
             }}>
                 <svg viewBox="0 0 100 100" className="choice-ring">
                     <circle cx="50" cy="50" r="45" fill="none" stroke={ringStrokeColor} strokeWidth="10"></circle>

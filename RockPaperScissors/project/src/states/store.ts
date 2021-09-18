@@ -1,4 +1,5 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { isMobile } from './device'
 
 export interface IGameState {
     rulesOpen: boolean
@@ -17,6 +18,24 @@ export interface IGameState {
             x: number
             y: number
         } | undefined
+        choiceSize: {
+            sel: number
+            unSel: number
+        }
+        resultCtn: {
+            left: number
+            top: number
+            width: number
+            height: number
+        }
+        playerSel: {
+            top: number
+            left: number
+        }
+        houseSel: {
+            top: number
+            left: number
+        }
     }
 }
 
@@ -33,7 +52,25 @@ const initGameState: IGameState = {
     currentScore: 3600,
     showHelper: false,
     contentSizes: {
-        anchorPos: undefined
+        anchorPos: undefined,
+        choiceSize: {
+            sel: 90,
+            unSel: 90
+        },
+        resultCtn: {
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0
+        },
+        playerSel: {
+            top: 0,
+            left: 0
+        },
+        houseSel: {
+            top: 0,
+            left: 0
+        }
     }
 }
 
@@ -51,10 +88,10 @@ const thunkSelectChoice = createAsyncThunk('game/selectChoice',
             }))
             setTimeout(() => {
                 res()
-            }, 3000)
+            }, 1000)
         })
         dispatch(setChcGrpRadius(0))
-        console.log('setting radius to 0') // TODO delete this line
+        dispatch(setChoiceSize({sel: 160}))
         return
     }
 )
@@ -84,6 +121,27 @@ const slice = createSlice({
                 x: payload.ctnWidth * .5,
                 y: payload.ctnHeight * .5
             }
+            if (isMobile) {
+                const resCtn = state.contentSizes.resultCtn
+                const height = 160
+                const width = payload.ctnWidth
+                resCtn.top = payload.ctnHeight * .5 - height
+                resCtn.left = -payload.ctnWidth * .5
+                resCtn.width = width
+                resCtn.height = height
+                const playerSel = state.contentSizes.playerSel
+                playerSel.left = payload.ctnWidth * (.25 - .5)
+                playerSel.top = payload.ctnHeight * (.25 - .5)
+                const houseSel = state.contentSizes.houseSel
+                houseSel.left = payload.ctnWidth * (.75 - .5)
+                houseSel.top = payload.ctnHeight * (.25 - .5)
+            }
+        },
+        setChoiceSize: (state, {payload}: {payload: {
+            sel?: number
+            unSel?: number
+        }}) => {
+            Object.assign(state.contentSizes.choiceSize, payload)
         }
     },
     extraReducers: builder => {
@@ -104,7 +162,8 @@ export const {
     setChcGrpRadius,
     selectChcGrpItem,
     setShowHelper,
-    updateContentSizes
+    updateContentSizes,
+    setChoiceSize
 } = slice.actions
 
 export const store = configureStore({

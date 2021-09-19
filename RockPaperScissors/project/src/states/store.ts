@@ -1,24 +1,19 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { info } from './device'
 
-interface IHelperDistance {
+interface ISelTextDist {
     top?: number
     bottom?: number
 }
 
 export interface IGameState {
-    rulesOpen: boolean
-    chcGrpOffset: {
-        xPerc: number
-        yPerc: number
-    }
-    chcGrpRadius: number
-    chcGrpSelected: string | undefined
-    chcGrpUnSelOpa: number
-    chcGrpTransThunkId: string | undefined
-    currentScore: number
     showHelper: boolean
-    helperDistance: IHelperDistance
+    currentScore: number
+    selection: {
+        chcGrpSelected: string | undefined
+        chcGrpUnSelOpa: number
+        chcGrpTransThunkId: string | undefined
+    }
     contentSizes: {
         anchorPos: {
             x: number
@@ -34,6 +29,8 @@ export interface IGameState {
             width: number
             height: number
         }
+        chcGrpRadius: number
+        selTextDist: ISelTextDist
         playerSel: {
             top: number
             left: number
@@ -46,18 +43,13 @@ export interface IGameState {
 }
 
 const initGameState: IGameState = {
-    rulesOpen: false,
-    chcGrpOffset: {
-        xPerc: 0.5,
-        yPerc: 0.5
-    },
-    chcGrpRadius: 110,
-    chcGrpSelected: undefined,
-    chcGrpUnSelOpa: 1,
-    chcGrpTransThunkId: undefined,
-    currentScore: 3600,
     showHelper: false,
-    helperDistance: {},
+    currentScore: 3600,
+    selection: {
+        chcGrpSelected: undefined,
+        chcGrpUnSelOpa: 1,
+        chcGrpTransThunkId: undefined,
+    },
     contentSizes: {
         anchorPos: undefined,
         choiceSize: {
@@ -70,6 +62,8 @@ const initGameState: IGameState = {
             width: 0,
             height: 0
         },
+        chcGrpRadius: 110,
+        selTextDist: {},
         playerSel: {
             top: 0,
             left: 0
@@ -81,23 +75,26 @@ const initGameState: IGameState = {
     }
 }
 
-
+function delay(ms: number) {
+    return new Promise<void>(res => {
+        setTimeout(() => void res(), ms)
+    })
+}
 
 const thunkSelectChoice = createAsyncThunk('game/selectChoice',
     async (selId: string | undefined, { dispatch, getState, requestId }): Promise<void> => {
         const state = getState() as stateType
-        if (state.game.chcGrpTransThunkId != requestId)
+        if (state.game.selection.chcGrpTransThunkId != requestId)
             return
-        await new Promise<void>(res => {
-            dispatch(selectChcGrpItem({
-                sel: selId,
-                unSelOpa: 0
-            }))
-            setTimeout(() => {
-                res()
-            }, 1000)
-        })
+
+        dispatch(selectChcGrpItem({
+            sel: selId,
+            unSelOpa: 0
+        }))
+
+        await delay(1000)
         dispatch(setChcGrpRadius(0))
+
         return
     }
 )
@@ -107,7 +104,7 @@ const slice = createSlice({
     initialState: initGameState,
     reducers: {
         setChcGrpRadius: (state, { payload }: { payload: number }) => {
-            state.chcGrpRadius = payload
+            state.contentSizes.chcGrpRadius = payload
         },
         selectChcGrpItem: (state, { payload }: {
             payload: {
@@ -115,8 +112,8 @@ const slice = createSlice({
                 unSelOpa: number
             }
         }) => {
-            state.chcGrpSelected = payload.sel
-            state.chcGrpUnSelOpa = payload.unSelOpa
+            state.selection.chcGrpSelected = payload.sel
+            state.selection.chcGrpUnSelOpa = payload.unSelOpa
         },
         setShowHelper: (state, { payload }: { payload: boolean }) => {
             state.showHelper = payload
@@ -149,28 +146,28 @@ const slice = createSlice({
                 const houseSel = state.contentSizes.houseSel
                 houseSel.left = payload.ctnWidth * (.73 - .5)
                 houseSel.top = remainHeight * .5 - payload.ctnHeight * .5
-                
+
                 state.contentSizes.choiceSize.sel = payload.ctnWidth * .5 * .67
 
                 const choiceRad = state.contentSizes.choiceSize.sel * .5
-                state.helperDistance = {
+                state.contentSizes.selTextDist = {
                     top: choiceRad * 1.33
                 }
             }
         },
-        setHelperDistance: (state, { payload }: { payload: IHelperDistance }) => {
-            state.helperDistance = payload
+        setHelperDistance: (state, { payload }: { payload: ISelTextDist }) => {
+            state.contentSizes.selTextDist = payload
         },
     },
     extraReducers: builder => {
         builder
             .addCase(thunkSelectChoice.pending, (state, action) => {
-                if (state.chcGrpTransThunkId == undefined)
-                    state.chcGrpTransThunkId = action.meta.requestId
+                if (state.selection.chcGrpTransThunkId == undefined)
+                    state.selection.chcGrpTransThunkId = action.meta.requestId
             })
             .addCase(thunkSelectChoice.fulfilled, (state, action) => {
-                if (state.chcGrpTransThunkId == action.meta.requestId) {
-                    state.chcGrpTransThunkId = undefined
+                if (state.selection.chcGrpTransThunkId == action.meta.requestId) {
+                    state.selection.chcGrpTransThunkId = undefined
                 }
             })
     }

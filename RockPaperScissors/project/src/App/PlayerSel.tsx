@@ -28,10 +28,10 @@ function getPolygonPath(ary: { x: number, y: number }[], offset: { x: number, y:
 }
 
 export default React.memo(function () {
-    const centerDistance = useSelector((state: stateType) => state.game.chcGrpRadius)
+    const centerDistance = useSelector((state: stateType) => state.game.contentSizes.chcGrpRadius)
     const itemPos = computePositions(centerDistance)
     const ctnPos = useSelector((state: stateType) => state.game.contentSizes.playerSel, shallowEqual)
-    const textPos = useSelector((state: stateType) => state.game.helperDistance, shallowEqual)
+    const textPos = useSelector((state: stateType) => state.game.contentSizes.selTextDist, shallowEqual)
 
     return <div style={{
         position: 'absolute',

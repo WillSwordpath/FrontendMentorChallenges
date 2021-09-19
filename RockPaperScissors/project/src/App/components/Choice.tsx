@@ -24,8 +24,8 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
     }
 }) {
     const select = useSelector((state: stateType) => ({
-        id: state.game.chcGrpSelected,
-        opacity: state.game.chcGrpSelected == brokenRingGradId ? 1 : state.game.chcGrpUnSelOpa
+        id: state.game.selection.chcGrpSelected,
+        opacity: state.game.selection.chcGrpSelected == brokenRingGradId ? 1 : state.game.selection.chcGrpUnSelOpa
     }), shallowEqual)
     const thisSelected = select.id == brokenRingGradId
     const choiceSize = useSelector((state: stateType) => state.game.contentSizes.choiceSize, shallowEqual)

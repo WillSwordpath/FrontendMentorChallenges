@@ -8,7 +8,7 @@ import './Selection.css'
 
 export default React.memo(function () {
     const ctnPos = useSelector((state: stateType) => state.game.contentSizes.houseSel, shallowEqual)
-    const textPos = useSelector((state: stateType) => state.game.helperDistance, shallowEqual)
+    const textPos = useSelector((state: stateType) => state.game.contentSizes.selTextDist, shallowEqual)
 
     return <div style={{
         position: 'absolute',

@@ -8,6 +8,7 @@ import './Selection.css'
 
 export default React.memo(function () {
     const ctnPos = useSelector((state: stateType) => state.game.contentSizes.houseSel, shallowEqual)
+    const textPos = useSelector((state: stateType) => state.game.helperDistance, shallowEqual)
 
     return <div style={{
         position: 'absolute',
@@ -22,6 +23,8 @@ export default React.memo(function () {
                 ></Choice>
             )
         }
-        <p className="pick-info">THE HOUSE PICKED</p>
+        <p className="pick-info" style={{
+            ...textPos
+        }}>THE HOUSE PICKED</p>
     </div>
 })

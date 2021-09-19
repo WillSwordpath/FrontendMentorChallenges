@@ -2,5 +2,7 @@
     color: white;
     font-size: 1rem;
     text-align: center;
-    width: max-content;
+    width: 200px;
+    position: absolute;
+    left: -100px;
 }

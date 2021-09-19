@@ -1,5 +1,10 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { isMobile } from './device'
+import { info } from './device'
+
+interface IHelperDistance {
+    top?: number
+    bottom?: number
+}
 
 export interface IGameState {
     rulesOpen: boolean
@@ -13,6 +18,7 @@ export interface IGameState {
     chcGrpTransThunkId: string | undefined
     currentScore: number
     showHelper: boolean
+    helperDistance: IHelperDistance
     contentSizes: {
         anchorPos: {
             x: number
@@ -51,6 +57,7 @@ const initGameState: IGameState = {
     chcGrpTransThunkId: undefined,
     currentScore: 3600,
     showHelper: false,
+    helperDistance: {},
     contentSizes: {
         anchorPos: undefined,
         choiceSize: {
@@ -77,7 +84,7 @@ const initGameState: IGameState = {
 
 
 const thunkSelectChoice = createAsyncThunk('game/selectChoice',
-    async (selId: string | undefined, {dispatch, getState, requestId}): Promise<void> => {
+    async (selId: string | undefined, { dispatch, getState, requestId }): Promise<void> => {
         const state = getState() as stateType
         if (state.game.chcGrpTransThunkId != requestId)
             return
@@ -91,7 +98,6 @@ const thunkSelectChoice = createAsyncThunk('game/selectChoice',
             }, 1000)
         })
         dispatch(setChcGrpRadius(0))
-        dispatch(setChoiceSize({sel: 160}))
         return
     }
 )
@@ -100,61 +106,73 @@ const slice = createSlice({
     name: 'game',
     initialState: initGameState,
     reducers: {
-        setChcGrpRadius: (state, {payload}: {payload: number}) => {
+        setChcGrpRadius: (state, { payload }: { payload: number }) => {
             state.chcGrpRadius = payload
         },
-        selectChcGrpItem: (state, {payload}: {payload: {
-            sel: string | undefined
-            unSelOpa: number
-        }}) => {
+        selectChcGrpItem: (state, { payload }: {
+            payload: {
+                sel: string | undefined
+                unSelOpa: number
+            }
+        }) => {
             state.chcGrpSelected = payload.sel
             state.chcGrpUnSelOpa = payload.unSelOpa
         },
-        setShowHelper: (state, {payload}: {payload: boolean}) => {
+        setShowHelper: (state, { payload }: { payload: boolean }) => {
             state.showHelper = payload
         },
-        updateContentSizes: (state, {payload}: {payload: {
-            ctnWidth: number
-            ctnHeight: number
-        }}) => {
+        updateContentSizes: (state, { payload }: {
+            payload: {
+                ctnWidth: number
+                ctnHeight: number
+            }
+        }) => {
             state.contentSizes.anchorPos = {
                 x: payload.ctnWidth * .5,
                 y: payload.ctnHeight * .5
             }
-            if (isMobile) {
+            if (info.isMobile) {
                 const resCtn = state.contentSizes.resultCtn
-                const height = 160
-                const width = payload.ctnWidth
-                resCtn.top = payload.ctnHeight * .5 - height
+                const resHeight = 160
+                const resWidth = payload.ctnWidth
+                resCtn.top = payload.ctnHeight * .5 - resHeight
                 resCtn.left = -payload.ctnWidth * .5
-                resCtn.width = width
-                resCtn.height = height
+                resCtn.width = resWidth
+                resCtn.height = resHeight
+
+                const remainHeight = payload.ctnHeight - resHeight
+
                 const playerSel = state.contentSizes.playerSel
-                playerSel.left = payload.ctnWidth * (.25 - .5)
-                playerSel.top = payload.ctnHeight * (.25 - .5)
+                playerSel.left = payload.ctnWidth * (.27 - .5)
+                playerSel.top = remainHeight * .5 - payload.ctnHeight * .5
+
                 const houseSel = state.contentSizes.houseSel
-                houseSel.left = payload.ctnWidth * (.75 - .5)
-                houseSel.top = payload.ctnHeight * (.25 - .5)
+                houseSel.left = payload.ctnWidth * (.73 - .5)
+                houseSel.top = remainHeight * .5 - payload.ctnHeight * .5
+                
+                state.contentSizes.choiceSize.sel = payload.ctnWidth * .5 * .67
+
+                const choiceRad = state.contentSizes.choiceSize.sel * .5
+                state.helperDistance = {
+                    top: choiceRad * 1.33
+                }
             }
         },
-        setChoiceSize: (state, {payload}: {payload: {
-            sel?: number
-            unSel?: number
-        }}) => {
-            Object.assign(state.contentSizes.choiceSize, payload)
-        }
+        setHelperDistance: (state, { payload }: { payload: IHelperDistance }) => {
+            state.helperDistance = payload
+        },
     },
     extraReducers: builder => {
         builder
-        .addCase(thunkSelectChoice.pending, (state, action) => {
-            if (state.chcGrpTransThunkId == undefined)
-                state.chcGrpTransThunkId = action.meta.requestId
-        })
-        .addCase(thunkSelectChoice.fulfilled, (state, action) => {
-            if (state.chcGrpTransThunkId == action.meta.requestId) {
-                state.chcGrpTransThunkId = undefined
-            }
-        })
+            .addCase(thunkSelectChoice.pending, (state, action) => {
+                if (state.chcGrpTransThunkId == undefined)
+                    state.chcGrpTransThunkId = action.meta.requestId
+            })
+            .addCase(thunkSelectChoice.fulfilled, (state, action) => {
+                if (state.chcGrpTransThunkId == action.meta.requestId) {
+                    state.chcGrpTransThunkId = undefined
+                }
+            })
     }
 })
 
@@ -163,7 +181,6 @@ export const {
     selectChcGrpItem,
     setShowHelper,
     updateContentSizes,
-    setChoiceSize
 } = slice.actions
 
 export const store = configureStore({

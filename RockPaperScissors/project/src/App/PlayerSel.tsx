@@ -31,6 +31,7 @@ export default React.memo(function () {
     const centerDistance = useSelector((state: stateType) => state.game.chcGrpRadius)
     const itemPos = computePositions(centerDistance)
     const ctnPos = useSelector((state: stateType) => state.game.contentSizes.playerSel, shallowEqual)
+    const textPos = useSelector((state: stateType) => state.game.helperDistance, shallowEqual)
 
     return <div style={{
         position: 'absolute',
@@ -55,6 +56,8 @@ export default React.memo(function () {
                 ></Choice>
             )
         }
-        <p className="pick-info">YOU PICKED</p>
+        <p className="pick-info" style={{
+            ...textPos
+        }}>YOU PICKED</p>
     </div>
 })

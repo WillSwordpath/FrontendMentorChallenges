@@ -1,76 +1,56 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { info } from './device'
-
-interface ISelTextDist {
-    top?: number
-    bottom?: number
-}
+import { EContentState, IContentLayout, IObservation, IObservationUpdate, layout } from "./layout"
 
 export interface IGameState {
     showHelper: boolean
     currentScore: number
-    selection: {
-        chcGrpSelected: string | undefined
-        chcGrpUnSelOpa: number
-        chcGrpTransThunkId: string | undefined
-    }
-    contentSizes: {
-        anchorPos: {
-            x: number
-            y: number
-        } | undefined
-        choiceSize: {
-            sel: number
-            unSel: number
-        }
-        resultCtn: {
-            left: number
-            top: number
-            width: number
-            height: number
-        }
-        chcGrpRadius: number
-        selTextDist: ISelTextDist
-        playerSel: {
-            top: number
-            left: number
-        }
-        houseSel: {
-            top: number
-            left: number
-        }
-    }
+    playerPicked: string | undefined
+    housePicked: string | undefined
+    transitionID: string | undefined
+    observed: IObservation
+    layout: IContentLayout
 }
 
 const initGameState: IGameState = {
     showHelper: false,
     currentScore: 3600,
-    selection: {
-        chcGrpSelected: undefined,
-        chcGrpUnSelOpa: 1,
-        chcGrpTransThunkId: undefined,
+    playerPicked: undefined,
+    housePicked: undefined,
+    transitionID: undefined,
+    observed: {
+        isMobile: false,
+        obWidth: 0,
+        obHeight: 0,
+        state: EContentState.unselected
     },
-    contentSizes: {
-        anchorPos: undefined,
-        choiceSize: {
-            sel: 90,
-            unSel: 90
+    layout: {
+        anchor: undefined,
+        choiceCentDist: 0,
+        choiceDiam: {
+            sel: 0,
+            unS: 0,
         },
-        resultCtn: {
+        resultBox: {
             left: 0,
             top: 0,
             width: 0,
-            height: 0
+            height: 0,
         },
-        chcGrpRadius: 110,
-        selTextDist: {},
-        playerSel: {
+        pickedTextDist: {},
+        playerPicked: {
+            left: 0,
             top: 0,
-            left: 0
         },
-        houseSel: {
+        housePicked: {
+            left: 0,
             top: 0,
-            left: 0
+        },
+        show: {
+            polygon: false,
+            unS: false,
+            house: false,
+            housePick: false,
+            result: false
         }
     }
 }
@@ -84,7 +64,7 @@ function delay(ms: number) {
 const thunkSelectChoice = createAsyncThunk('game/selectChoice',
     async (selId: string | undefined, { dispatch, getState, requestId }): Promise<void> => {
         const state = getState() as stateType
-        if (state.game.selection.chcGrpTransThunkId != requestId)
+        if (state.game.transitionID != requestId)
             return
 
         dispatch(selectChcGrpItem({
@@ -103,81 +83,43 @@ const slice = createSlice({
     name: 'game',
     initialState: initGameState,
     reducers: {
-        setChcGrpRadius: (state, { payload }: { payload: number }) => {
-            state.contentSizes.chcGrpRadius = payload
-        },
-        selectChcGrpItem: (state, { payload }: {
-            payload: {
-                sel: string | undefined
-                unSelOpa: number
-            }
+        playerPick: (state, { payload }: {
+            payload:  string | undefined
         }) => {
-            state.selection.chcGrpSelected = payload.sel
-            state.selection.chcGrpUnSelOpa = payload.unSelOpa
+            state.playerPicked = payload
+        },
+        housePick: (state, { payload }: {
+            payload:  string | undefined
+        }) => {
+            state.housePicked = payload
         },
         setShowHelper: (state, { payload }: { payload: boolean }) => {
             state.showHelper = payload
         },
-        updateContentSizes: (state, { payload }: {
-            payload: {
-                ctnWidth: number
-                ctnHeight: number
-            }
-        }) => {
-            state.contentSizes.anchorPos = {
-                x: payload.ctnWidth * .5,
-                y: payload.ctnHeight * .5
-            }
-            if (info.isMobile) {
-                const resCtn = state.contentSizes.resultCtn
-                const resHeight = 160
-                const resWidth = payload.ctnWidth
-                resCtn.top = payload.ctnHeight * .5 - resHeight
-                resCtn.left = -payload.ctnWidth * .5
-                resCtn.width = resWidth
-                resCtn.height = resHeight
-
-                const remainHeight = payload.ctnHeight - resHeight
-
-                const playerSel = state.contentSizes.playerSel
-                playerSel.left = payload.ctnWidth * (.27 - .5)
-                playerSel.top = remainHeight * .5 - payload.ctnHeight * .5
-
-                const houseSel = state.contentSizes.houseSel
-                houseSel.left = payload.ctnWidth * (.73 - .5)
-                houseSel.top = remainHeight * .5 - payload.ctnHeight * .5
-
-                state.contentSizes.choiceSize.sel = payload.ctnWidth * .5 * .67
-
-                const choiceRad = state.contentSizes.choiceSize.sel * .5
-                state.contentSizes.selTextDist = {
-                    top: choiceRad * 1.33
-                }
-            }
-        },
-        setHelperDistance: (state, { payload }: { payload: ISelTextDist }) => {
-            state.contentSizes.selTextDist = payload
-        },
+        updateLayout: (state, { payload }: { payload: IObservationUpdate }) => {
+            Object.assign(state.observed, payload)
+            state.layout = layout(state.observed)
+        }
     },
     extraReducers: builder => {
         builder
             .addCase(thunkSelectChoice.pending, (state, action) => {
-                if (state.selection.chcGrpTransThunkId == undefined)
-                    state.selection.chcGrpTransThunkId = action.meta.requestId
+                if (state.transitionID == undefined)
+                    state.transitionID = action.meta.requestId
             })
             .addCase(thunkSelectChoice.fulfilled, (state, action) => {
-                if (state.selection.chcGrpTransThunkId == action.meta.requestId) {
-                    state.selection.chcGrpTransThunkId = undefined
+                if (state.transitionID == action.meta.requestId) {
+                    state.transitionID = undefined
                 }
             })
     }
 })
 
 export const {
-    setChcGrpRadius,
-    selectChcGrpItem,
     setShowHelper,
-    updateContentSizes,
+    playerPick,
+    housePick,
+    updateLayout
 } = slice.actions
 
 export const store = configureStore({
@@ -191,6 +133,5 @@ export const dispatch = store.dispatch.bind(store)
 export const initState = store.getState()
 
 export type stateType = typeof initState
-
 
 export const onSelectChoice = (selId?: string) => void dispatch(thunkSelectChoice(selId))

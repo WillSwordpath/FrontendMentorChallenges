@@ -1,19 +1,12 @@
-export interface IDeviceInfo {
-    width: number
-    isMobile: boolean
-}
+import { dispatch, updateLayout } from './store'
+
 
 const minDesktopWidth = 800
 
-export const info: IDeviceInfo = {
-    width: 0,
-    isMobile: false
-}
-
 const cb = () => {
     const width = (window.innerWidth > 0) ? window.innerWidth : screen.width
-    info.isMobile = width < minDesktopWidth
-    info.width = width
+    const isMobile = width < minDesktopWidth
+    dispatch(updateLayout({ isMobile }))
 }
 
 cb()

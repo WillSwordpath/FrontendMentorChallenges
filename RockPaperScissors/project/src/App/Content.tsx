@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { memo, useRef, useEffect, useMemo } from 'react'
 import './Content.css'
-import { dispatch, stateType, updateContentSizes } from '../states/store'
+import { dispatch, stateType, updateLayout } from '../states/store'
 import { useSelector } from 'react-redux'
 import { protectedShallowEqual } from '../states/funcs'
 import PlayerSel from './PlayerSel'
@@ -13,15 +13,14 @@ function onResizeObserved(entries: ResizeObserverEntry[]) {
     const secSize = secSizeArray[0]
     const width = secSize.inlineSize
     const height = secSize.blockSize
-    console.log('width', width, 'height', height)  // TODO
-    dispatch(updateContentSizes({
-        ctnWidth: width,
-        ctnHeight: height
+    dispatch(updateLayout({
+        obWidth: width,
+        obHeight: height
     }))
 }
 
 export default memo(function () {
-    const anchorPos = useSelector((state: stateType) => state.game.contentSizes.anchorPos, protectedShallowEqual)
+    const anchorPos = useSelector((state: stateType) => state.game.layout.anchor, protectedShallowEqual)
 
     const secRef = useRef(null)
     const observer = useMemo(() => new ResizeObserver(onResizeObserved), [])
@@ -29,9 +28,9 @@ export default memo(function () {
         const section = secRef.current as HTMLElement | null
         if (section) {
             const rect = section.getBoundingClientRect()
-            dispatch(updateContentSizes({
-                ctnWidth: rect.width,
-                ctnHeight: rect.height
+            dispatch(updateLayout({
+                obWidth: rect.width,
+                obHeight: rect.height
             }))
             observer.observe(section, { box: 'border-box' })
         }

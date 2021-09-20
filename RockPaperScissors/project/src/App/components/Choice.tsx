@@ -11,10 +11,10 @@ function getScale(sizeInPixel: number) {
     return sizeInPixel * invIntrWidth
 }
 
-export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor, offset = {
+export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor, selected, offset = {
     x: 0,
     y: 0
-}}: {
+}, house }: {
     imgSrc: string
     ringStrokeColor: string
     brokenRingGradId: string
@@ -22,24 +22,36 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
         x: number
         y: number
     }
+    selected: boolean
+    house?: {
+        showPick: boolean
+    }
 }) {
-    const select = useSelector((state: stateType) => ({
-        id: state.game.selection.chcGrpSelected,
-        opacity: state.game.selection.chcGrpSelected == brokenRingGradId ? 1 : state.game.selection.chcGrpUnSelOpa
+    const choiceProp = useSelector((state: stateType) => ({
+        ...state.game.layout.choiceDiam,
+        showUnS: state.game.layout.show.unS
     }), shallowEqual)
-    const thisSelected = select.id == brokenRingGradId
-    const choiceSize = useSelector((state: stateType) => state.game.contentSizes.choiceSize, shallowEqual)
+    let opacity: number, scale: number
+    if (house == undefined) {
+        opacity = selected || choiceProp.showUnS ? 1 : 0
+        scale = selected ? getScale(choiceProp.sel) : getScale(choiceProp.unS)
+    } else {
+        opacity = selected && house.showPick ? 1 : 0
+        scale = selected && house.showPick ? getScale(choiceProp.sel) : getScale(choiceProp.unS)
+    }
     return (
         <span className="choice-anchor" style={{
-            left: offset.x + 'px',
-            top: offset.y + 'px',
+            left: offset.x,
+            top: offset.y,
             transition: '.5s',
-            zIndex: thisSelected ? 1 : 0
+            zIndex: selected ? 1 : 0
         }}>
-            <div className="choice-box" onClick={onSelectChoice.bind(undefined, brokenRingGradId)} style={{
-                opacity: select.opacity,
+            <div className="choice-box" onClick={
+                house == undefined ? onSelectChoice.bind(undefined, brokenRingGradId) : undefined
+            } style={{
+                opacity,
                 transition: '.5s',
-                transform: `scale(${ thisSelected ? getScale(choiceSize.sel) : getScale(choiceSize.unSel) })`
+                transform: `scale(${scale})`
             }}>
                 <svg viewBox="0 0 100 100" className="choice-ring">
                     <circle cx="50" cy="50" r="45" fill="none" stroke={ringStrokeColor} strokeWidth="10"></circle>

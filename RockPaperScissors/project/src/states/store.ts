@@ -1,5 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { EContentState, IContentLayout, IObservation, IObservationUpdate, layout } from "./layout"
+import { brokenRingAssets } from "../constants/broken-ring"
 
 export interface IGameState {
     showHelper: boolean
@@ -67,13 +68,20 @@ const thunkSelectChoice = createAsyncThunk('game/selectChoice',
         if (state.game.transitionID != requestId)
             return
 
-        dispatch(selectChcGrpItem({
-            sel: selId,
-            unSelOpa: 0
-        }))
-
+        dispatch(playerPick(selId))
+        dispatch(updateLayout({state: EContentState.hidePolygon}))
         await delay(1000)
-        dispatch(setChcGrpRadius(0))
+        dispatch(updateLayout({state: EContentState.centralize}))
+        await delay(1000)
+        dispatch(updateLayout({state: EContentState.pairPosition}))
+        await delay(1000)
+        const rand = Math.floor(brokenRingAssets.length * Math.random())
+        dispatch(housePick(brokenRingAssets[rand].id))  // TODO calculate score
+        dispatch(updateLayout({state: EContentState.transOutText}))
+        await delay(1000)
+        dispatch(updateLayout({state: EContentState.showHousePick}))
+        await delay(1000)
+        dispatch(updateLayout({state: EContentState.showResult}))
 
         return
     }

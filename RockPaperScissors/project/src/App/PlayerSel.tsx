@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { computePositions, brokenRingAssets } from '../constants/broken-ring'
 import { stateType } from '../states/store'
 import './Selection.css'
-import { shallowEqual } from '../states/funcs'
+import { deepEqual } from '../states/funcs'
 
 function getPolygonPath(ary: { x: number, y: number }[], offset: { x: number, y: number } = { x: 500, y: 500 }): string {
     const len = ary.length
@@ -28,28 +28,37 @@ function getPolygonPath(ary: { x: number, y: number }[], offset: { x: number, y:
 }
 
 export default React.memo(function () {
-    const centerDistance = useSelector((state: stateType) => state.game.contentSizes.chcGrpRadius)
-    const itemPos = computePositions(centerDistance)
-    const ctnPos = useSelector((state: stateType) => state.game.contentSizes.playerSel, shallowEqual)
-    const textPos = useSelector((state: stateType) => state.game.contentSizes.selTextDist, shallowEqual)
-
+    const states = useSelector((state: stateType) => ({
+        centDist: state.game.layout.choiceCentDist,
+        anchor: state.game.layout.playerPicked,
+        textPos: state.game.layout.pickedTextDist,
+        showHouse: state.game.layout.show.house,
+        showPoly: state.game.layout.show.polygon,
+        picked: state.game.playerPicked
+    }), deepEqual)
+    const itemPositions = computePositions(states.centDist)
     return <div style={{
         position: 'absolute',
-        ...ctnPos
+        ...states.anchor
     }}>
         <svg viewBox="0 0 1000 1000" width="1000" style={{
             position: 'absolute',
             left: '-500px',
             top: '-500px',
         }}>
-            <path d={getPolygonPath(itemPos)} strokeLinejoin="round" fill="none" stroke="#16223C" strokeWidth="8" style={{
-                transition: '.4s'
-            }}></path>
+            <path d={getPolygonPath(itemPositions)}
+                strokeLinejoin="round" fill="none" stroke="#16223C" strokeWidth="8"
+                style={{
+                    transition: '.4s',
+                    opacity: states.showPoly ? 1 : 0
+                }}
+            ></path>
         </svg>
         {
             brokenRingAssets.map((brc, idx) =>
                 <Choice key={brc.id}
-                    offset={itemPos[idx]}
+                    selected={states.picked == brc.id}
+                    offset={itemPositions[idx]}
                     ringStrokeColor={brc.start}
                     brokenRingGradId={brc.id}
                     imgSrc={brc.img}
@@ -57,7 +66,8 @@ export default React.memo(function () {
             )
         }
         <p className="pick-info" style={{
-            ...textPos
+            ...states.textPos,
+            opacity: states.showHouse ? 1 : 0,
         }}>YOU PICKED</p>
     </div>
 })

@@ -5,13 +5,13 @@ import { stateType } from '../states/store'
 import './Result.css'
 
 export default React.memo(function () {
-    const ctnSize = useSelector((state: stateType) => state.game.contentSizes.resultCtn, shallowEqual)
+    const shape = useSelector((state: stateType) => ({
+        ...state.game.layout.resultBox,
+        opacity: state.game.layout.show.result ? 1 : 0
+    }), shallowEqual)
     return <div style={{
         position: 'absolute',
-        top: ctnSize.top,
-        left: ctnSize.left,
-        width: ctnSize.width,
-        height: ctnSize.height
+        ...shape
     }} className="result-box">
         <p className="result-text">YOU WIN</p>
         <button className="again-btn">PLAY AGAIN</button>

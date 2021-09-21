@@ -67,362 +67,286 @@ function min(left: number, right: number): number {
     return ret
 }
 
+const inactChoiceSizePerc = .28
+const inactChoiceGroupRadiusPerc = .333
+const actChoiceSizePerc = .35
+const pickedTextDiamRatio = .5 * 1.333
+const defaultResultHeight = 160
+const actPlayerLeftPerc = .27
+const actHouseLeftPerc = 1 - actPlayerLeftPerc
+
 export function layout({ isMobile, obWidth, obHeight, state }: IObservation): IContentLayout {
     let ret: IContentLayout
     const obMinSize = min(obWidth, obHeight)
-    let selDiam, unSDiam, resultHeight, remainHeight
-    if (isMobile) {
-        switch (state) {
-            case EContentState.unselected:
-                unSDiam = obMinSize * .3
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: obMinSize * .333,
-                    choiceDiam: {
-                        sel: unSDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: 0
-                    },
-                    pickedTextDist: {
-                        top: unSDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    housePicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    show: {
-                        polygon: true,
-                        unS: true,
-                        house: false,
-                        housePick: false,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.hidePolygon:
-                unSDiam = obMinSize * .3
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: obMinSize * .333,
-                    choiceDiam: {
-                        sel: unSDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: 0
-                    },
-                    pickedTextDist: {
-                        top: unSDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    housePicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: false,
-                        housePick: false,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.centralize:
-                selDiam = obMinSize * .35
-                unSDiam = obMinSize * .3
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: 0,
-                    choiceDiam: {
-                        sel: selDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: 0
-                    },
-                    pickedTextDist: {
-                        top: selDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    housePicked: {
-                        left: 0,
-                        top: 0
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: false,
-                        housePick: false,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.pairPosition:
-                selDiam = obMinSize * .35
-                unSDiam = obMinSize * .3
-                resultHeight = 160 // TODO
-                remainHeight = obHeight - resultHeight
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: 0,
-                    choiceDiam: {
-                        sel: selDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5 - resultHeight,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: resultHeight
-                    },
-                    pickedTextDist: {
-                        top: selDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: obWidth * (.27 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    housePicked: {
-                        left: obWidth * (.73 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: false,
-                        housePick: false,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.transOutText:
-                selDiam = obMinSize * .35
-                unSDiam = obMinSize * .3
-                resultHeight = 160 // TODO
-                remainHeight = obHeight - resultHeight
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: 0,
-                    choiceDiam: {
-                        sel: selDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5 - resultHeight,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: resultHeight
-                    },
-                    pickedTextDist: {
-                        top: selDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: obWidth * (.27 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    housePicked: {
-                        left: obWidth * (.73 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: true,
-                        housePick: false,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.showHousePick:
-                selDiam = obMinSize * .35
-                unSDiam = obMinSize * .3
-                resultHeight = 160 // TODO
-                remainHeight = obHeight - resultHeight
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: 0,
-                    choiceDiam: {
-                        sel: selDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5 - resultHeight,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: resultHeight
-                    },
-                    pickedTextDist: {
-                        top: selDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: obWidth * (.27 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    housePicked: {
-                        left: obWidth * (.73 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: true,
-                        housePick: true,
-                        result: false
-                    }
-                }
-                break
-            case EContentState.showResult:
-                selDiam = obMinSize * .35
-                unSDiam = obMinSize * .3
-                resultHeight = 160 // TODO
-                remainHeight = obHeight - resultHeight
-                ret = {
-                    anchor: {
-                        x: obWidth * .5,
-                        y: obHeight * .5
-                    },
-                    choiceCentDist: 0,
-                    choiceDiam: {
-                        sel: selDiam,
-                        unS: unSDiam
-                    },
-                    resultBox: {
-                        top: obHeight * .5 - resultHeight,
-                        left: -obWidth * .5,
-                        width: obWidth,
-                        height: resultHeight
-                    },
-                    pickedTextDist: {
-                        top: selDiam * .5 * 1.333
-                    },
-                    playerPicked: {
-                        left: obWidth * (.27 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    housePicked: {
-                        left: obWidth * (.73 - .5),
-                        top: (remainHeight - obHeight) * .5
-                    },
-                    show: {
-                        polygon: false,
-                        unS: false,
-                        house: true,
-                        housePick: true,
-                        result: true
-                    }
-                }
-                break
-        }
-    } else {
-        switch (state) {
-            case EContentState.unselected:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.hidePolygon:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.centralize:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.pairPosition:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.transOutText:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.showHousePick:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-            case EContentState.showResult:
-                ret = desktopTodo(obMinSize, obWidth, obHeight)
-                break
-        }
+    const isDesktop = !isMobile
+    let selDiam: number,
+        unSDiam: number,
+        resultHeight: number,
+        remainHeight: number
+    const anchor = {
+        x: obWidth * .5,
+        y: obHeight * .5
     }
-    return ret
-}
+    switch (state) {
+        case EContentState.unselected:
+            unSDiam = obMinSize * inactChoiceSizePerc
+            ret = {
+                anchor,
+                choiceCentDist: obMinSize * inactChoiceGroupRadiusPerc,
+                choiceDiam: {
+                    sel: unSDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: 0
+                },
+                pickedTextDist: {
+                    top: unSDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: 0,
+                    top: 0
+                },
+                housePicked: {
+                    left: 0,
+                    top: 0
+                },
+                show: {
+                    polygon: true,
+                    unS: true,
+                    house: false,
+                    housePick: false,
+                    result: false
+                }
+            }
+            break
+        case EContentState.hidePolygon:
+            unSDiam = obMinSize * inactChoiceSizePerc
+            ret = {
+                anchor,
+                choiceCentDist: obMinSize * inactChoiceGroupRadiusPerc,
+                choiceDiam: {
+                    sel: unSDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: 0
+                },
+                pickedTextDist: {
+                    top: unSDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: 0,
+                    top: 0
+                },
+                housePicked: {
+                    left: 0,
+                    top: 0
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: false,
+                    housePick: false,
+                    result: false
+                }
+            }
+            break
+        case EContentState.centralize:
+            selDiam = obMinSize * actChoiceSizePerc
+            unSDiam = obMinSize * inactChoiceSizePerc
+            ret = {
+                anchor,
+                choiceCentDist: 0,
+                choiceDiam: {
+                    sel: selDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: 0
+                },
+                pickedTextDist: {
+                    top: selDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: 0,
+                    top: 0
+                },
+                housePicked: {
+                    left: 0,
+                    top: 0
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: false,
+                    housePick: false,
+                    result: false
+                }
+            }
+            break
+        case EContentState.pairPosition:
+            selDiam = obMinSize * actChoiceSizePerc
+            unSDiam = obMinSize * inactChoiceSizePerc
+            resultHeight = defaultResultHeight
+            remainHeight = obHeight - resultHeight
+            ret = {
+                anchor,
+                choiceCentDist: 0,
+                choiceDiam: {
+                    sel: selDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5 - resultHeight,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: resultHeight
+                },
+                pickedTextDist: {
+                    top: selDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: obWidth * (actPlayerLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                housePicked: {
+                    left: obWidth * (actHouseLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: false,
+                    housePick: false,
+                    result: false
+                }
+            }
+            break
+        case EContentState.transOutText:
+            selDiam = obMinSize * actChoiceSizePerc
+            unSDiam = obMinSize * inactChoiceSizePerc
+            resultHeight = defaultResultHeight
+            remainHeight = obHeight - resultHeight
+            ret = {
+                anchor,
+                choiceCentDist: 0,
+                choiceDiam: {
+                    sel: selDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5 - resultHeight,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: resultHeight
+                },
+                pickedTextDist: {
+                    top: selDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: obWidth * (actPlayerLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                housePicked: {
+                    left: obWidth * (actHouseLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: true,
+                    housePick: false,
+                    result: false
+                }
+            }
+            break
+        case EContentState.showHousePick:
+            selDiam = obMinSize * actChoiceSizePerc
+            unSDiam = obMinSize * inactChoiceSizePerc
+            resultHeight = defaultResultHeight
+            remainHeight = obHeight - resultHeight
+            ret = {
+                anchor,
+                choiceCentDist: 0,
+                choiceDiam: {
+                    sel: selDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5 - resultHeight,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: resultHeight
+                },
+                pickedTextDist: {
+                    top: selDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: obWidth * (actPlayerLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                housePicked: {
+                    left: obWidth * (actHouseLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: true,
+                    housePick: true,
+                    result: false
+                }
+            }
+            break
+        case EContentState.showResult:
+            selDiam = obMinSize * actChoiceSizePerc
+            unSDiam = obMinSize * inactChoiceSizePerc
+            resultHeight = defaultResultHeight
+            remainHeight = obHeight - resultHeight
+            ret = {
+                anchor,
+                choiceCentDist: 0,
+                choiceDiam: {
+                    sel: selDiam,
+                    unS: unSDiam
+                },
+                resultBox: {
+                    top: obHeight * .5 - resultHeight,
+                    left: -obWidth * .5,
+                    width: obWidth,
+                    height: resultHeight
+                },
+                pickedTextDist: {
+                    top: selDiam * pickedTextDiamRatio
+                },
+                playerPicked: {
+                    left: obWidth * (actPlayerLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                housePicked: {
+                    left: obWidth * (actHouseLeftPerc - .5),
+                    top: (remainHeight - obHeight) * .5
+                },
+                show: {
+                    polygon: false,
+                    unS: false,
+                    house: true,
+                    housePick: true,
+                    result: true
+                }
+            }
+            break
+    }
 
-/**
- * TODO
- * @param obMinSize 
- * @param obWidth 
- * @param obHeight 
- * @returns 
- */
-function desktopTodo(obMinSize: number, obWidth: number, obHeight: number): IContentLayout {
-    const unSDiam = obMinSize * .3
-    return {
-        anchor: {
-            x: obWidth * .5,
-            y: obHeight * .5
-        },
-        choiceCentDist: obMinSize * .333,
-        choiceDiam: {
-            sel: unSDiam,
-            unS: unSDiam
-        },
-        resultBox: {
-            top: obHeight * .5,
-            left: -obWidth * .5,
-            width: obWidth,
-            height: 0
-        },
-        pickedTextDist: {
-            top: unSDiam * .5 * 1.333
-        },
-        playerPicked: {
-            left: 0,
-            top: 0
-        },
-        housePicked: {
-            left: 0,
-            top: 0
-        },
-        show: {
-            polygon: true,
-            unS: true,
-            house: false,
-            housePick: false,
-            result: false
-        }
-    }
+    return ret
 }

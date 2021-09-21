@@ -19,6 +19,7 @@ export default React.memo(function () {
         position: 'absolute',
         ...states.anchor,
         opacity: states.showHouse ? 1 : 0,
+        zIndex: 1,
     }}>
         {
             brokenRingAssets.map((brc) =>
@@ -35,6 +36,7 @@ export default React.memo(function () {
         }
         <p className="pick-info" style={{
             ...states.textPos,
+            zIndex: states.showHouse ? 0 : -1
         }}>THE HOUSE PICKED</p>
     </div>
 })

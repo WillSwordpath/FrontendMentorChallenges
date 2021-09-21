@@ -31,22 +31,20 @@ export default React.memo(function ({ imgSrc, brokenRingGradId, ringStrokeColor,
         ...state.game.layout.choiceDiam,
         showUnS: state.game.layout.show.unS
     }), shallowEqual)
-    let opacity: number, scale: number, zIndex: number
+    let opacity: number, scale: number
     if (house == undefined) {
         opacity = selected || choiceProp.showUnS ? 1 : 0
         scale = selected ? getScale(choiceProp.sel) : getScale(choiceProp.unS)
-        zIndex = selected ? 11 : 10
     } else {
         opacity = selected && house.showPick ? 1 : 0
         scale = selected && house.showPick ? getScale(choiceProp.sel) : getScale(choiceProp.unS)
-        zIndex = selected ? 1 : 0
     }
     return (
         <span className="choice-anchor" style={{
             left: offset.x,
             top: offset.y,
             transition: '.5s',
-            zIndex
+            zIndex: selected ? 1 : 0
         }}>
             <div className="choice-box" onClick={
                 house == undefined ? onSelectChoice.bind(undefined, brokenRingGradId) : undefined

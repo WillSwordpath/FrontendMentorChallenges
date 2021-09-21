@@ -39,12 +39,14 @@ export default React.memo(function () {
     const itemPositions = computePositions(states.centDist)
     return <div style={{
         position: 'absolute',
-        ...states.anchor
+        ...states.anchor,
+        zIndex: 2,
     }}>
         <svg viewBox="0 0 1000 1000" width="1000" style={{
             position: 'absolute',
             left: '-500px',
             top: '-500px',
+            zIndex: -1,
         }}>
             <path d={getPolygonPath(itemPositions)}
                 strokeLinejoin="round" fill="none" stroke="#16223C" strokeWidth="8"
@@ -68,6 +70,7 @@ export default React.memo(function () {
         <p className="pick-info" style={{
             ...states.textPos,
             opacity: states.showHouse ? 1 : 0,
+            zIndex: states.showHouse ? 0 : -1
         }}>YOU PICKED</p>
     </div>
 })

@@ -2,6 +2,7 @@
     position: relative;
     flex-grow: 1;
     flex-basis: 300px;
+    z-index: 0;
 }
 
 .choice-group-anchor {
